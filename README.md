@@ -9,9 +9,9 @@
 
 - **Romane Fayon** – Simulation de l’équipe municipale  
 
-- **Nathalie Habib** – Modélisation du sac à dos multidimensionnel 
+- **Nathalie Habib** – Modélisation du sac à dos multidimensionnel et méthodes gloutonnes
 
-- **William Miserolle** – Méthodes gloutonnes 
+- **William Miserolle** – Méthode de HIll Climbing, génération d'instances et Main
 
 
 
