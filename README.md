@@ -11,7 +11,7 @@
 
 - **Nathalie Habib** – Modélisation du sac à dos multidimensionnel et méthodes gloutonnes
 
-- **William Miserolle** – Méthode de HIll Climbing, génération d'instances et Main
+- **William Miserolle** – Méthode de Hill Climbing, génération d'instances et Main
 
 
 
