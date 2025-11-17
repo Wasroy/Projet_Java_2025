@@ -8,9 +8,7 @@ public class Objet{
 		this.utilite = utilite;
 		this.couts = couts;
 	}
-	
-	//constructeur (1 par defaut aussi A VOIR)
-	//maybe 1 meth pr changer les objets A VOIR)
+
 
 	public void afficherObjet(){
 		System.out.println("Utilite: " + this.utilite);
