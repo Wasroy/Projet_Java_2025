@@ -8,7 +8,6 @@ public class SacADos{
 	private int[] budgets;
 	private List<Objet> objets;
 
-	//constructeur (1 par defaut avec this dedans et 1 classique)
 
 	public SacADos(int dimension, int[] budgets, List<Objet> objets){
 		this.dimension = dimension;
@@ -16,7 +15,6 @@ public class SacADos{
 		this.objets = objets;
 	}
 
-	//MAYBE une meth pr changer contenu sac A VOIR 
 
 	public void afficherSacADos(){
 		System.out.println("Sac : ");
