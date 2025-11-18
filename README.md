@@ -3,8 +3,8 @@
 ## Groupe
 
 - **Romane Fayon** – Simulation de l'équipe municipale  
-- **Nathalie Habib** – Modélisation du sac à dos multidimensionnel
-- **William Miserolle** – Méthode gloutonne a AjoutPremier
+- **Nathalie Habib** – Modélisation du sac à dos multidimensionnel et critères d'ordre ajout
+- **William Miserolle** – Méthode gloutonne à ajout et critère d'ordre retrait
 
 ---
 
@@ -37,13 +37,13 @@ Projet/
 │   │   └── Specialisation.java
 │   │
 │   ├── sacADos/
-│   │   ├── DemoSacPremierGlouton.java
+│   │   ├── DemoSacGlouton.java
 │   │   ├── Objet.java
 │   │   └── SacADos.java
 │   │
 │   └── solveur/
 │       └── glouton/
-│           ├── GloutonAjoutSolveurPremier.java
+│           ├── GloutonAjoutSolver.java
 │           ├── OrdreObjetsAjoutPremier.java
 │           ├── OrdreObjetsAjoutDeuxieme.java
 │           └── OrdreObjetsRetrait.java
@@ -90,7 +90,7 @@ Le module `sacADos` modélise et résout le problème du sac à dos avec plusieu
 
 Le module `solveur.glouton` implémente une méthode gloutonne pour résoudre le problème :
 
-- **`GloutonAjoutSolveurPremier`** : Solveur principal qui :
+- **`GloutonAjoutSolver`** : Solveur principal qui :
   - Trie les objets selon un comparateur fourni
   - Ajoute les objets un par un s'ils respectent toutes les contraintes budgétaires
   - Retourne la liste des objets sélectionnés
@@ -125,7 +125,7 @@ java equipe.Main
 **Démonstration du solveur glouton** :
 ```bash
 cd bin
-java sacADos.DemoSacPremierGlouton
+java sacADos.DemoSacGlouton
 ```
 
 ---
@@ -134,7 +134,7 @@ java sacADos.DemoSacPremierGlouton
 
 ### Exemple du solveur glouton
 
-Le fichier `DemoSacPremierGlouton.java` montre un exemple d'utilisation :
+Le fichier `DemoSacGlouton.java` montre un exemple d'utilisation :
 
 ```java
 // Création d'objets avec utilité et coûts multidimensionnels
@@ -147,7 +147,7 @@ int[] budgets = {10, 12};
 SacADos sac = new SacADos(2, budgets, objets);
 
 // Résolution avec méthode gloutonne
-List<Objet> resultat = GloutonAjoutSolveurPremier.methodegloutonneajoutpremier(
+List<Objet> resultat = GloutonAjoutSolver.methodeGloutonneAjout(
     sac, 
     new OrdreObjetsAjoutPremier()
 );
