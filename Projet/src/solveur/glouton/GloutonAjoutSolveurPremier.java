@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
 
-public class GloutonAjoutSolveurPremier{
+public class GloutonAjoutSolver{
 	
-	public static List<Objet> methodegloutonneajoutpremier(SacADos sac, Comparator<Objet> comp) {
+	public static List<Objet> methodeGloutonneAjoutPremier(SacADos sac, Comparator<Objet> comp) {
 		
 		//on récupère les objets du sac avec le getter : on les copie pour pas changer directement les vrais valeurs (par sécurité)
 		List<Objet> listedesobjets = new ArrayList<>(sac.getObjets());
