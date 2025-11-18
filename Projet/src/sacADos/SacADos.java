@@ -9,22 +9,37 @@ public class SacADos{
 	private List<Objet> objets;
 
 
-	public SacADos(int dimension, int[] budgets, List<Objet> objets){
+	public SacADos(int dimension, int[] budgets, List<Objet> objets){ //dimension c en gros le nb de cout d'un objet par ex 3 (cout eco, social, environnement..)
 		this.dimension = dimension;
 		this.budgets = budgets;
 		this.objets = objets;
 	}
 
+	//getter pour pouvoir recup les objets du sac dans les autres fichiers
+	public List<Objet> getObjets(){
+		return objets;
+	}
+
+	public int getDimension(){
+		return dimension;
+	}
+
+	public int[] getBudgets(){
+		return budgets;
+	}
 
 	public void afficherSacADos(){
 		System.out.println("Sac : ");
+		System.out.println("La dimension veut dire le nombre de couts que possedes les objets par ex 3 (cout eco, social, environnement..) ");
 		System.out.println("Dimension : " + this.dimension);
 		for (int i = 1; i <= this.budgets.length; i++){
 			System.out.println("Budget " + i + " = " + budgets[i-1]);
 		}
+		int numero = 1;
 		for (Objet o: this.objets){
-			System.out.println("\nObjet : ");
+			System.out.println("\nObjet " + numero + " : ");
 			o.afficherObjet();
+			numero++;
 		}
 	}
 }

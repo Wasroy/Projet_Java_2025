@@ -3,44 +3,43 @@ import sacADos.*;
 import java.util.Comparator;
 
 public class OrdreObjetsRetrait implements Comparator<Objet> {
-	//le L de l'énoncé:
-
-	public static int maxCoutObjetDimension(Objet o){
-		
+	
+	private final SacADos sac;
+	
+	public OrdreObjetsRetrait(SacADos sac) {
+		this.sac = sac;
+	}
+	
+	private int trouverDimensionMaxDepassement() {
+		int dimensionMaxDepassement = 0;
 		int maxDepassementBudget = 0;
-		int[] dimensionsMaxDepassementBudget = new int[sac1.dimension];
-		int indiceCourant = 0;
 		
-		for (int i = 0; i < sac1.dimension; i++){
+		for (int i = 0; i < sac.getDimension(); i++) {
 			int sommeCouts = 0;
-			int depassementBudget = 0;
-			for (Objet o: sac1.objets){
-				sommeCouts += o.couts[i];
+			for (Objet obj : sac.getObjets()) {
+				sommeCouts += obj.getCouts()[i];
 			}
-			depassementBudget = sommeCouts - sac1.budgets[i];
-			if (depassementBudget >= maxDepassementBudget){
+			int depassementBudget = sommeCouts - sac.getBudgets()[i];
+			
+			if (depassementBudget > maxDepassementBudget) {
 				maxDepassementBudget = depassementBudget;
-				dimensionMaxDepassementBudget[indiceCourant] = i+1;
-				indiceCourant++;
+				dimensionMaxDepassement = i;
 			}
 		}
-
-		
-		int maxCout;
-		for (int i = 0; i < dimensionsMaxDepassementBudget.length; i++){
-			if (dimensionsMaxDepassementBudget[i] != 0 && o.couts[dimensionsMaxDepassementBudget[i]] >= maxCout){
-				maxCout = o.couts[dimensionsMaxDepassementBudget[i]];
-			}
-		}
-		return maxCout;
+		return dimensionMaxDepassement;
+	}
+	
+	private int maxCoutObjetDimension(Objet o) {
+		int dimensionProblematique = trouverDimensionMaxDepassement();
+		return o.getCouts()[dimensionProblematique];
 	}
 
 	@Override
-	public int compare(Objet o1, Objet o2){
-		double f1 = (double) o1.utilite/(maxCoutObjetDimension(o1));
-		double f2 = (double) o2.utilite/(maxCoutObjetDimension(o2));
+	public int compare(Objet o1, Objet o2) {
+		double f1 = (double) o1.getUtilite() / maxCoutObjetDimension(o1);
+		double f2 = (double) o2.getUtilite() / maxCoutObjetDimension(o2);
 
-		if (f1>f2)
+		if (f1 < f2)
 			return -1;
 		else if (f1 == f2)
 			return 0;
