@@ -5,7 +5,7 @@ import java.util.List;
 import solveur.glouton.GloutonAjoutSolver;
 import solveur.glouton.OrdreObjetsAjoutPremier;
 
-public class DemoSacPremierGlouton {
+public class DemoSacGlouton {
     //Objet : valeur d'utilité, couts (1er, 2eme, 3eme, etc.)
     public static void main(String[] args) {
         Objet o1 = new Objet(12, new int[]{3, 5});
@@ -27,7 +27,7 @@ public class DemoSacPremierGlouton {
 
         sac.afficherSacADos();
 
-        List<Objet> resultatGloutonAjoutPremier = GloutonAjoutSolver.methodeGloutonneAjoutPremier(sac, new OrdreObjetsAjoutPremier());
+        List<Objet> resultatGloutonAjoutPremier = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutPremier()); //marche aussi pour le 2e critere avec new OrdreObjetsAjoutDeuxieme()
         
         System.out.println("--------------------------------");
         System.out.println("Liste des objets selectionnes par la methode gloutonne a ajout premier :");
