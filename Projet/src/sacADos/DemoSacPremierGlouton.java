@@ -27,7 +27,7 @@ public class DemoSacPremierGlouton {
 
         sac.afficherSacADos();
 
-        List<Objet> resultatGloutonAjoutPremier = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutPremier());
+        List<Objet> resultatGloutonAjoutPremier = GloutonAjoutSolver.methodeGloutonneAjoutPremier(sac, new OrdreObjetsAjoutPremier());
         
         System.out.println("--------------------------------");
         System.out.println("Liste des objets selectionnes par la methode gloutonne a ajout premier :");
