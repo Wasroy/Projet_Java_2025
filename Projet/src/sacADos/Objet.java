@@ -28,8 +28,8 @@ public class Objet{
 	public void afficherObjet(){
 		System.out.println("Utilite: " + this.getUtilite());
 		for (int i = 1; i <= this.getCouts().length; i++){
-			System.out.println("cout " + i + " = " + this.getCouts()[i-1]);
+			System.out.println("Cout " + i + " = " + this.getCouts()[i-1]);
 		}
-		System.out.println("c tot = " + this.getCoutTotal());
+		System.out.println("Cout total = " + this.getCoutTotal());
 	}
 }
