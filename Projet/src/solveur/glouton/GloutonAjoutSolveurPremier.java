@@ -7,7 +7,7 @@ import java.util.Collections;
 
 public class GloutonAjoutSolver{
 	
-	public static List<Objet> methodeGloutonneAjoutPremier(SacADos sac, Comparator<Objet> comp) {
+	public static List<Objet> methodeGloutonneAjout(SacADos sac, Comparator<Objet> comp) {
 		
 		//on récupère les objets du sac avec le getter : on les copie pour pas changer directement les vrais valeurs (par sécurité)
 		List<Objet> listedesobjets = new ArrayList<>(sac.getObjets());
@@ -15,7 +15,7 @@ public class GloutonAjoutSolver{
 		//idem on clone le tableau des budgets
 		int[] budgetsdusac = sac.getBudgets().clone();
 
-		//on applique le comparateur qu'on a précédemment crée dans OrdreObjetsPremier pour trier la liste selon l'ordre désiré
+		//on applique le comparateur qu'on a précédemment crée dans OrdreObjetsPremier ou OrdreObjetsDeuxieme pour trier la liste selon l'ordre désiré
 		Collections.sort(listedesobjets, comp);
 
 		List<Objet> resultat = new ArrayList<>(); //on initialise une liste vide pour les objets selectionnés
