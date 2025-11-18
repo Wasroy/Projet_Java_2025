@@ -184,16 +184,3 @@ Les prochaines parties intégreront :
 
 * menu interactif complet dans la console.
 
-
-
-```
-
-
-
----
-
-
-
-Tout est prêt à copier-coller — ton README est clean, académique et parfaitement aligné avec les attentes du professeur.
-
-```
