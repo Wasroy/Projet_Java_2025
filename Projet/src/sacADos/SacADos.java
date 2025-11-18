@@ -30,7 +30,7 @@ public class SacADos{
 
 	public void afficherSacADos(){
 		System.out.println("Sac : ");
-		System.out.println("La dimension veut dire le nombre de couts que possedes les objets par ex 3 (cout eco, social, environnement..) ");
+		System.out.println("La dimension est le nombre de couts que possedent les objets.");
 		System.out.println("Dimension : " + this.dimension);
 		for (int i = 1; i <= this.budgets.length; i++){
 			System.out.println("Budget " + i + " = " + budgets[i-1]);
