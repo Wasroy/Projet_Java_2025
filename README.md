@@ -3,8 +3,8 @@
 ## Groupe
 
 - **Romane Fayon** – Simulation de l'équipe municipale  
-- **Nathalie Habib** – Modélisation du sac à dos multidimensionnel et méthodes gloutonnes
-- **William Miserolle** – Méthode de Hill Climbing, génération d'instances et Main
+- **Nathalie Habib** – Modélisation du sac à dos multidimensionnel
+- **William Miserolle** – Méthode gloutonne a AjoutPremier
 
 ---
 
@@ -132,7 +132,7 @@ java sacADos.DemoSacPremierGlouton
 
 ## Exemple d'utilisation
 
-### Exemple avec le solveur glouton
+### Exemple du solveur glouton
 
 Le fichier `DemoSacPremierGlouton.java` montre un exemple d'utilisation :
 
@@ -155,35 +155,17 @@ List<Objet> resultat = GloutonAjoutSolveurPremier.methodegloutonneajoutpremier(
 
 ---
 
-## Notes techniques
-
-- Le projet utilise des modules Java (module-info.java)
-- Les solveurs gloutons utilisent le pattern Strategy via des comparateurs
-- La méthode gloutonne garantit que tous les objets sélectionnés respectent toutes les contraintes budgétaires
-- Le dossier `solveur/hill_climbing/` est réservé pour de futures implémentations
-
----
 
 ## État d'avancement
 
-### ✅ Implémenté
+### Implémenté
 
 - Simulation complète de l'équipe municipale
 - Modélisation du sac à dos multidimensionnel
 - Solveur glouton avec ajout
-- Trois stratégies de tri différentes
+- Trois stratégies de tri différentes (2x Ajouts 1x Retrait)
 - Démonstrations fonctionnelles
 
-### 🔄 À venir
-
-- Méthode Hill Climbing
-- Lecture d'instances depuis fichiers externes
-- Documentation Javadoc complète
-- Tests JUnit
-- Menu interactif dans la console
-- Méthode gloutonne à retrait complète
-
----
 
 ## Auteurs
 
