@@ -2,7 +2,7 @@ package sacADos;
 
 import java.util.ArrayList;
 import java.util.List;
-import solveur.glouton.GloutonAjoutSolveurPremier;
+import solveur.glouton.GloutonAjoutSolver;
 import solveur.glouton.OrdreObjetsAjoutPremier;
 
 public class DemoSacPremierGlouton {
@@ -27,7 +27,7 @@ public class DemoSacPremierGlouton {
 
         sac.afficherSacADos();
 
-        List<Objet> resultatGloutonAjoutPremier = GloutonAjoutSolveurPremier.methodegloutonneajoutpremier(sac, new OrdreObjetsAjoutPremier());
+        List<Objet> resultatGloutonAjoutPremier = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutPremier());
         
         System.out.println("--------------------------------");
         System.out.println("Liste des objets selectionnes par la methode gloutonne a ajout premier :");
