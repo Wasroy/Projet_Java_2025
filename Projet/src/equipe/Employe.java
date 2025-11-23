@@ -1,6 +1,8 @@
 package equipe;
 
-public abstract class Employe {
+//classe abstraite car pas de réalité physique 
+
+public abstract class Employe { 
 	String Nom;
 	String Prenom;
 	int Age;

@@ -1,0 +1,9 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.project.sourcePaths": [
+        "Projet/src"
+    ],
+    "java.project.outputPath": "Projet/bin",
+    "java.compile.nullAnalysis.mode": "automatic"
+}
+

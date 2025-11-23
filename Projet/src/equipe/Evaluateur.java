@@ -1,22 +1,20 @@
 package equipe;
+import java.util.Random;
+
 
 public class Evaluateur extends Employe{
 	private Specialisation Specialite;
+	private Random rand = new Random();
+    float min = 0f;     // 10 000 €
+    float max = 500000f;    // 500 000 €
 	
 	public Evaluateur(String Nom, String Prenom, int Age, Specialisation S) {
 		super (Nom, Prenom, Age);
 		Specialite=S;
 	}
-	public void evaluerCout(ProjetEnCours p) {
-		float cout; //préciser la spécialisation
-		if ((p.getDescription()).contains("ambitieux")){
-			cout=500000;
-		}
-		else if ((p.getDescription()).contains("metal")){
-			cout=2000;
-		}
-		else {cout=1000;}
 	
+	public void evaluerCout(Projet p) {
+		float cout=min + rand.nextFloat() * (max - min);
 		switch (Specialite) {
 	    	case ECONOMIE:
 	    		p.setCout("ECONOMIE", cout);
