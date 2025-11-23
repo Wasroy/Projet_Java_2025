@@ -4,5 +4,5 @@
 /**
  * 
  */
-module Projet {
+module TP6 {
 }
