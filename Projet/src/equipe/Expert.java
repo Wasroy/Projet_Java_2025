@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Expert extends Employe {
 	Secteur[] secteurs; //liste des secteurs de l'expert
-	private Random rand = new Random();
+	private final Random rand = new Random(); //j'ai mis final car techniquement ne pourra pas être modifié  
 
 	Expert(String Nom, String Prenom, int Age, Secteur[] s){
 		super(Nom, Prenom, Age);

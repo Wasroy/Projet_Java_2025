@@ -1,5 +1,4 @@
 package equipe;
-
 import java.util.Arrays;
 
 public class Main {
