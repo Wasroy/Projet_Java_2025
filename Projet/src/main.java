@@ -6,6 +6,7 @@ import solveur.glouton.OrdreObjetsAjoutDeuxieme;
 import sacADos.*;
 
 public static void main(String[] args) {
+	//creation du sac a dos et affichage de ce dernier
         Objet o1 = new Objet(12, new int[]{3, 5});
         Objet o2 = new Objet(7, new int[]{2, 4});
         Objet o3 = new Objet(10, new int[]{4, 6});
@@ -24,7 +25,8 @@ public static void main(String[] args) {
         SacADos sac = new SacADos(2, budgets, objets);
 
         sac.afficherSacADos();
-
+	//resolution par methodes gloutonnes a ajout:
+	//--resolution avec le premier critere
         List<Objet> resultatGloutonAjoutPremier = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutPremier()); //marche aussi pour le 2e critere avec new OrdreObjetsAjoutDeuxieme()
         
         System.out.println("--------------------------------");
@@ -32,7 +34,7 @@ public static void main(String[] args) {
         for (Objet o : resultatGloutonAjoutPremier) {
             o.afficherObjet();
         }
-		  
+	//--resolution avec le deuxieme critere
 		  List<Objet> resultatGloutonAjoutDeuxieme = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutDeuxieme()); //marche aussi pour le 2e critere avec new OrdreObjetsAjoutDeuxieme()
 		  System.out.println("--------------------------------");
         System.out.println("Liste des objets selectionnes par la methode gloutonne a ajout deuxieme :");
