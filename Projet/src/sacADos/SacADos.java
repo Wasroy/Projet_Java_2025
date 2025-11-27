@@ -15,7 +15,7 @@ public class SacADos{
 		this.objets = objets;
 	}
 
-	//getter pour pouvoir recup les objets du sac dans les autres fichiers
+	//getter pour pouvoir recuperer les objets du sac dans les autres fichiers
 	public List<Objet> getObjets(){
 		return objets;
 	}
