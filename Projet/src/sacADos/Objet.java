@@ -9,7 +9,7 @@ public class Objet{
 		this.couts = couts;
 	}
 
-	public int getUtilite(){ //amelioration de l'encapsulation en rajoutant fct qui recup les valeurs
+	public int getUtilite(){ //amelioration de l'encapsulation en rajoutant fct qui recuperer les valeurs
 		return this.utilite;
 	}
 	
