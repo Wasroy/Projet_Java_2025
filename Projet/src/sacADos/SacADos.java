@@ -9,7 +9,7 @@ public class SacADos{
 	private List<Objet> objets;
 
 
-	public SacADos(int dimension, int[] budgets, List<Objet> objets){ //dimension c en gros le nb de cout d'un objet par ex 3 (cout eco, social, environnement..)
+	public SacADos(int dimension, int[] budgets, List<Objet> objets){ //dimension est le nombre de cout d'un objet (cout eco, social, environnement..)
 		this.dimension = dimension;
 		this.budgets = budgets;
 		this.objets = objets;
