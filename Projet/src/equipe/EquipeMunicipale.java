@@ -9,7 +9,7 @@ public class EquipeMunicipale {
     private Elu elu;
 
     private List<Projet> projets= new ArrayList<>(); //projet à évaluer
-    private List<Projet> projetsComplets = new ArrayList<>(); //projet finalisés prêts à être votés
+    private List<Projet> projetsComplets = new ArrayList<>(); //projet finalises prêts à être votés
     
     
     //ajouter setElu, setEvaluateur, setExpert

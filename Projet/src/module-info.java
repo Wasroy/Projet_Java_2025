@@ -1,8 +1,2 @@
-/**
- * 
- */
-/**
- * 
- */
-module TP6 {
+module projet {
 }

@@ -6,7 +6,7 @@ import solveur.glouton.GloutonAjoutSolver;
 import solveur.glouton.OrdreObjetsAjoutPremier;
 
 public class DemoSacGlouton {
-    //Objet : valeur d'utilité, couts (1er, 2eme, 3eme, etc.)
+    //Objet : valeur d'utilité, couts {1er, 2eme, 3eme, etc.}
     public static void main(String[] args) {
         Objet o1 = new Objet(12, new int[]{3, 5});
         Objet o2 = new Objet(7, new int[]{2, 4});

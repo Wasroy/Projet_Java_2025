@@ -53,7 +53,7 @@ public class Projet {
 	    return "Projet : " + titre +
 	           "\n  Description : " + description +
 	           "\n  Secteur : " + secteur +
-	           "\n  Bénéfice : " + benefice +
-	           "\n  Coûts : " + cout + "\n";
+	           "\n  Benefice : " + benefice +
+	           "\n  Couts : " + cout + "\n";
 	}
 }
