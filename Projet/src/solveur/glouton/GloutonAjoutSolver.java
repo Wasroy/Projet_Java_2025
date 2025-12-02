@@ -3,7 +3,7 @@ import sacADos.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Collections;
+import java.util.Collections; //pour trier 
 
 public class GloutonAjoutSolver{
 	
@@ -22,7 +22,7 @@ public class GloutonAjoutSolver{
 
 		for (Objet o : listedesobjets) {
 
-			boolean selectionne = true; //on part du principe que l'objet peut ete ajouté et on va verifie si l'inverse n'est pas possible (ce qui va nous faire gagner de la complexité) : dès qu'un cout n'est pas possible on break et direct passe a l'objet suivant
+			boolean selectionne = true; //on part du principe que l'objet peut etre ajouté et on va verifie si l'inverse n'est pas possible (ce qui va nous faire gagner de la complexité) : dès qu'un cout n'est pas possible on break et direct passe a l'objet suivant
 			
 			for (int i = 0; i < o.getCouts().length; i++) { 
 				if (o.getCouts()[i] > budgetsdusac[i]) { //si un des couts de l'objet dépasse le budget du sac

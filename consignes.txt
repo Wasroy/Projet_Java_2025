@@ -1,0 +1,159 @@
+MIDO
+Mathématiques et Informatique
+de la décision et des organisations
+Licence 3 Info – 2025–2026 Java-Objet
+
+Projet : Gestion des budgets d’une ville
+
+Nous imaginons un problème où l’équipe d’une mairie doit financer un ensemble de projets de manière efficace. Votre travail permettra de simuler le processus de proposition des différents projets, et de sélection des projets les plus efficaces.
+
+Simulation d’une équipe municipale
+
+Au sein de la mairie de Dauphine City, une petite équipe est en charge de proposer de nouveaux projets afin d’améliorer la vie des Dauphinoi.se.s. Cette équipe se compose d’expert.e.s (qui peuvent proposer des projets dans leurs secteurs d’expertise), d’évaluateur.rice.s (qui évaluent les différents coûts des projets), et d’un.e élu.e qui estime le bénéfice du projet pour la municipalité.
+
+Dans la suite, on va décrire différentes composantes de cette équipe et on va vous demander de proposer une implémentation. La description est suffisamment précise pour avoir une implémentation, mais suffisamment vague pour vous forcer à choisir le type d’objet adéquat (une classe, une classe abstraite, une interface), le type de relation entre ces objets, et la structure de ces objets.
+
+Les projets.  
+Un projet proposé pour la municipalité est décrit par plusieurs caractéristiques : un titre, une description, un secteur, un bénéfice (quantifié par une valeur numérique) attendu pour la collectivité, trois coûts associés : un coût économique, un coût social, et un coût environnemental.  
+Les secteurs possibles auxquels un projet peut être rattaché (un seul secteur par projet) sont : sport, santé, éducation, culture, et attractivité économique.
+
+L’équipe municipale.  
+Toutes les personnes travaillant à la mairie possèdent un nom, un prénom, un âge, …  
+Nous distinguons les fonctions/métiers suivants :
+
+— Les évaluateur.rice.s sont des personnes chargées d’évaluer un coût particulier d’un projet. Un.e évaluateur.rice est toujours spécialisé.e sur un type de coût (une seule spécialisation). Sa spécialisation peut donc l’amener à renseigner soit le coût économique d’un projet, soit le coût social d’un projet, ou enfin son coût environnemental.
+
+— L’élu.e est une personne qui représente la municipalité et doit évaluer le bénéfice d’un projet pour la collectivité.
+
+— Un.e expert.e est une personne rattachée à une liste de secteurs dans lesquels il/elle a des compétences et pour lesquels il/elle peut proposer des projets.
+
+Une équipe municipale regroupe tous ces rôles : un.e élu.e, trois évaluateur.rice.s (un.e pour la question économique, un.e pour la question sociale, et un.e pour la question environnementale), et une liste d’expert.e.s.  
+Ainsi une équipe possède toutes les compétences pour proposer et évaluer des projets dans différents secteurs.
+
+L’équipe peut exécuter un cycle de simulation : les expert.e.s proposent des projets. Chaque évaluateur.rice attribue un coût au projet (coût économique, social, environnemental). L’élu.e attribue un bénéfice. Le projet est complet et peut être rajouté à la liste des projets étudiés par la municipalité.
+
+Pour le projet.  
+Réfléchissez aux différentes classes, interfaces, énumérations, etc., nécessaires pour représenter les différents concepts présentés plus haut. Dans un package `equipe`, codez ces différents éléments. Vous êtes libres de rajouter des classes, des méthodes, des attributs et champs statiques à ceux suggérés dans cette section.  
+Vous respecterez les bonnes pratiques d’encapsulation. Vous devrez pouvoir générer un cycle de simulation en utilisant un processus stochastique, dont vous choisirez les paramètres.
+
+---
+
+Sac à dos multidimensionnel
+
+La suite du projet se construit à partir d’un problème d’optimisation combinatoire, celui du sac à dos multidimensionnel.
+
+Le problème du sac-à-dos est un problème classique d’optimisation combinatoire où l’on cherche à sélectionner un ensemble d’objets d’utilité maximale sous une contrainte de coût.
+
+Formellement le problème est défini comme suit :
+
+— Input : un budget B et un ensemble O = {o1, …, on} d’objets où chaque objet oi est associé à une utilité ui et un coût ci.  
+— Output : trouver un ensemble S ⊆ O tel que Σ(ci) ≤ B et qui maximise u(S) = Σ(ui).
+
+Ce problème est NP-difficile.
+
+Variante multidimensionnelle :  
+Chaque objet oi possède une utilité ui et k valeurs de coûts c1i, …, cki.  
+Il existe k budgets B1, …, Bk.  
+On cherche S ⊆ O tel que, pour tout l ∈ {1,…,k}, Σ(cli) ≤ Bl et qui maximise Σ(ui).
+
+Pour le projet.  
+Dans un package `sacADos`, créez les classes suivantes :
+
+— `Objet` : attributs `int utilite`, `int[] couts`  
+— `SacADos` : attributs `int dimension`, `int[] budgets`, `List<Objet> objets`
+
+Vous pouvez ajouter d’autres classes, méthodes ou attributs.
+
+---
+
+Résolution par méthodes gloutonnes
+
+Méthodes “à ajout” :  
+— On commence avec S = ∅  
+— On parcourt les objets du plus intéressant au moins intéressant  
+— Si l’objet peut être ajouté sans dépasser les budgets, on l’ajoute
+
+Deux critères d’ordre proposés :
+
+1) fΣ(oi) = ui / Σ(cli)  
+2) fmax(oi) = ui / max(cli)
+
+Méthodes “à retrait” :  
+— On commence avec S = O  
+— On enlève les objets du moins intéressant au plus intéressant tant que les contraintes ne sont pas respectées  
+— Puis on exécute une méthode gloutonne à ajout
+
+Critère utile pour le retrait :  
+fmv(oi) = ui / max { cli | l dans les dimensions dépassées }
+
+Pour le projet.  
+Créer dans `solveur.glouton` :
+
+— `GloutonAjoutSolver`  
+— `GloutonRetraitSolver`
+
+Chaque méthode prend des `Comparator<Objet>`.
+
+---
+
+Résolution par Hill Climbing
+
+Méthode locale simple :  
+— Partir d’une solution initiale  
+— Explorer les voisins et prendre celui qui augmente le mieux la fonction objectif  
+— Si aucun voisin n’est meilleur → optimum local
+
+Voisinage proposé :  
+S' = (S \ E) ∪ A  
+avec |E| ≤ t et |A| ≤ t (t = 1 ou 2 recommandé)
+
+Limites :  
+— Myopie : piégé dans un maximum local  
+— Trop coûteux d’explorer tout le voisinage → on peut piocher des voisins aléatoires
+
+Pour le projet.  
+Implémenter une version classique + variantes.
+
+---
+
+Génération d’instances et lien avec l’équipe municipale
+
+Créer une classe `VersSacADos` avec méthodes permettant :
+
+— de convertir des projets issus de la simulation municipale en instance `SacADos`,  
+— d’utiliser des fichiers benchmark (Drake, 2015).
+
+Formats des fichiers benchmark :  
+— n objets, k budgets, valeur optimale  
+— liste des utilités  
+— matrice de contraintes (k × n)  
+— budgets B1…Bk
+
+---
+
+Partie Main
+
+Créer une classe `Main` affichant des menus console robustes pour tester :
+
+— différentes contraintes,  
+— différents solveurs,  
+— différentes stratégies d’ordre.
+
+---
+
+Consignes finales
+
+— Documentation Javadoc de qualité  
+— Packages correctement structurés  
+— Encapsulation respectée  
+— Distinction claire interfaces / classes abstraites / implémentations  
+— Utilisation d’annotations quand pertinent  
+— Gestion propre des exceptions  
+— 5 méthodes testées avec JUnit  
+— Code facilement testable  
+— Rapport incluant : répartition du travail, choix d’architecture, difficultés, réflexion sur l’usage des IA génératives  
+— Un ReadMe simple avec instructions de compilation/exécution
+
+Ce projet compte pour 40% de la note de l’UE.  
+Le travail doit refléter celui de votre groupe, pas celui d’autres groupes ou d’Internet.
+

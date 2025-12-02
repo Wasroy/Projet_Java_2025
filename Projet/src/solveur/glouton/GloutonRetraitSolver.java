@@ -1,48 +1,63 @@
 package solveur.glouton;
 import sacADos.*;
-import solveur.glouton.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.Iterator; // va etre utile pour supprimer un element pdnt qu'on parcourt la liste
 
 public class GloutonRetraitSolver{
 	
 	public static List<Objet> methodeGloutonneRetrait(SacADos sac, Comparator<Objet> comp) {
 		
-		List<Objet> listedesobjets = new ArrayList<>(sac.getObjets());
-		int[] budgetsdusac = sac.getBudgets().clone();
+		//Init clonage par secu
+		List<Objet> listedesobjets = new ArrayList<>(sac.getObjets()); //par securite on recup clone les objets
+		int[] budgetsdusac = sac.getBudgets().clone(); //idem on clone les budgets
 		
 		Collections.sort(listedesobjets, comp);
 
-		Iterator<Objet> objet = listedesobjets.iterator();
+		//par soucis d'optimisation on va calculer en avance toutes les sommes pour gagner en complexité (la manière de base serait de recalculer tout a chaque objet)
+		int[] sommes = new int[budgetsdusac.length];
+		for (Objet obj : listedesobjets) {
+			for (int i = 0; i < budgetsdusac.length; i++) {
+				sommes[i] += obj.getCouts()[i];
+			}
+		}
 
-		while (objet.hasNext()) {
-			Objet o = objet.next();
+		Iterator<Objet> curseur = listedesobjets.iterator(); //on utilise un iterator car on va modifier la liste pendant qu'on la parcourt d'où le fait qu'on peut pas faire juste un for...
+		
+		while (curseur.hasNext()) {
 			
-
-			//calcul de la somme des couts dim par dim et teste si respecte budget
+			// On vérifie si, avec les sommes actuelles, tous les budgets sont respectés
 			boolean dimensionRespecteBudget = true;
-			for (int i = 0; i < budgetsdusac.length; i++){
-				int sommeCoutsParDimension = 0;
-				
-				for (Objet o1: listedesobjets){
-					sommeCoutsParDimension += o1.getCouts()[i];
-				}
-				if (sommeCoutsParDimension > budgetsdusac[i]){
+			for (int i = 0; i < budgetsdusac.length; i++) {
+				if (sommes[i] > budgetsdusac[i]) {
 					dimensionRespecteBudget = false;
 					break;
-				}				
+				}
 			}
-			if (dimensionRespecteBudget == true){
-				//faire une nouvelle liste d'objets contenant tous les objets du sac privé de ceux qu'on a retiré puis la sort avec le critère d'ajout et commmencer la méthode gloutonne ajout à partir de cet objet dans la liste triée ?
+
+			// Si les contraintes sont respectées, on peut arrêter le retrait
+			if (dimensionRespecteBudget) {
+				break;
 			}
-			else{
-				objet.remove();
+			else {
+				
+				Objet courant = curseur.next(); 
+				curseur.remove();
+
+				// On met à jour les sommes : on enlève les coûts de l'objet retiré
+				for (int i = 0; i < budgetsdusac.length; i++) {
+					sommes[i] -= courant.getCouts()[i];
+				}
+
 			}
 
 		}
-		return listedesobjets;
+
+		 SacADos sacFinal = new SacADos(sac.getDimension(), budgetsdusac, listedesobjets);
+		 return GloutonAjoutSolver.methodeGloutonneAjout(sacFinal, comp);
 	}
+
+	
 }
