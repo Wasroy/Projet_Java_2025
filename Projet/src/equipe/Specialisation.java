@@ -1,4 +1,8 @@
 package equipe;
+/**
+ * Liste des spécialisations possibles
+ * @author Romane FAYON
+ */
 
 public enum Specialisation {
 	ECONOMIE, SOCIAL,ENVIRONNEMENT

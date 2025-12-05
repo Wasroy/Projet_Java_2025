@@ -1,17 +1,28 @@
+
+/** Les élus sont un type d'employé qui s'occupent d'évaluer les bénéfices de projets proposés 
+ * @author Romane FAYON 
+ */
+
 package equipe;
 import java.util.Random;
 
 public class Elu extends Employe {
 	private Random rand = new Random();
-    float min = 0f;     // 10 000 €
-    float max = 500000f;    // 500 000 €
+    int min = 0;     // 2 000 €
+    int max = 500000;    // 500 000 €
+	//j'ai donné des bornes pour que ce soit plus réaliste
 	
 	public Elu(String Nom, String Prenom, int Age) {
 		super(Nom, Prenom, Age);
 	}
 	
-	public float EvaluerBenefice(Projet p) {
-		float benefice = min + rand.nextFloat() * (max - min);
+	/**
+	 * 	méthode qui permet à l'élu d'évaluer (en euros) le bénéfice d'un projet 
+	 * @param p le projet dont le benefice va être évalué
+	 * @return le bénéfice du projet 
+	 */
+	public int EvaluerBenefice(Projet p) {
+		int benefice =rand.nextInt(min,max);
 		p.setBenefice(benefice);
 		return benefice;
 	}

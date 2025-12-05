@@ -1,20 +1,48 @@
+/**
+ * Les évaluateurs sont des types d'employés qui vont évaluer le coût d'un projet dans UN secteur 
+ * @author Romane FAYON
+ */
+
 package equipe;
 import java.util.Random;
 
 
 public class Evaluateur extends Employe{
-	private Specialisation Specialite; //
-	private Random rand = new Random();
-    float min = 0f;     // 10 000 € (j'ai mis des f pour que ca soit interpreté comme des float)
-    float max = 500000f;    // 500 000 €
+	private Specialisation Specialite; /** Spécialité de l'évaluateur(parmi une liste prédéfinie) */
+	private Random rand = new Random(); 
+    int min = 0;     // 0 € /** Minimum du cout du budget */
+    int max = 500000;    // 500 000 € /** Maximum du cout du budget */
+	//j'ai donné des bornes pour que ce soit plus réaliste
 	
-	public Evaluateur(String Nom, String Prenom, int Age, Specialisation S) {
+
+	/**
+     * constructeur d'un évaluateur
+     * @param nom Nom de l'évaluateur
+     * @param prenom Prénom de l'évaluateur
+     * @param age Âge de l'évaluateur
+     * @param specialite Spécialité parmi une liste prédéfinie
+     */
+	public Evaluateur(String Nom, String Prenom, int Age, Specialisation s) {	
 		super (Nom, Prenom, Age);
-		Specialite=S;
+		if (s == null) {
+            throw new IllegalArgumentException("La spécialisation ne peut pas être nulle");
+        }
+		if (min >= max) {
+            throw new IllegalStateException("Le coût minimum ne peut pas être supérieur au coût maximum");
+        }
+		Specialite=s;
+		
 	}
 	
+	/**
+	 * Méthode qui permet à l'évaluateur d'évaluer le cout d'un projet dans sa spécialité
+	 * @param p Projet qui va être évalué
+	 */
 	public void evaluerCout(Projet p) {
-		float cout=min + rand.nextFloat() * (max - min); //de base le random donnera un resultat entre 0 et 1 c'est pour ca que j'ai fait cette petite manip
+		if (p == null) {
+            throw new IllegalArgumentException("Le projet évalué ne peut pas être nul");
+        }
+		int cout=rand.nextInt(min,max); 
 		switch (Specialite) { //disjonction de cas sur Specialité, la structure du switch me paraissait adaptée 
 	    	case ECONOMIE:
 	    		p.setCout(Specialisation.ECONOMIE, cout);
@@ -26,6 +54,7 @@ public class Evaluateur extends Employe{
 	    		p.setCout(Specialisation.ENVIRONNEMENT, cout);
 	    		break;
 		}
+		// peut etre plus simple comme ca : p.setCout(specialite, cout)
 	}
      
 }
