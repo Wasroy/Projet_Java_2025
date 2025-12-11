@@ -13,7 +13,7 @@ import java.io.IOException;
 import static java.lang.Integer.parseInt;
 
 /**
- * Permet de transformer une instance de MKP (Multi-dimensional Knapsack Problem) en un sac à dos ou un projet de l'équipe municipale en un objet pour le sac à dos
+ * Permet de transformer une instance de MKP (Multi-dimensional Knapsack Problem) ou un projet de l'équipe municipale en un objet pour le sac à dos
  * @author Romane FAYON
  */
 
@@ -23,7 +23,6 @@ import static java.lang.Integer.parseInt;
 public class VersSacADos {
     //j'ai besoin d'une liste de projets et des budgets de Dauphine City
     //int[] budgets = new int[]{}; //tableau avec budgets pour chaque secteur
-    //comment avoir la liste des projets ??
     //Projet[] listeProjets = new Projet[]{};
     /*il faut transformer les projets en des objets valides pour le sac à dos :
      Un Objet possédera comme attributs une valeur int utilite et un tableau int[] couts*/
@@ -34,15 +33,19 @@ public class VersSacADos {
       * @return un objet pour le sac à dos
       */
     public Objet transformation(Projet p){ //me renvoie un objet qui pourra être mis dans le sac à dos 
-        int cout_eco=p.getCout(Specialisation.ECONOMIE);
+	    	if (p == null) {
+	    	    throw new IllegalArgumentException("Projet nul fourni à transformation()");
+	    	}
+    		int cout_eco=p.getCout(Specialisation.ECONOMIE);
         int cout_soc=p.getCout(Specialisation.SOCIAL);
         int cout_env=p.getCout(Specialisation.ENVIRONNEMENT);
         int[] couts=new int[]{cout_eco,cout_soc,cout_env};
         int utilite=p.getBenefice();
-        Objet o=new Objet(utilite,couts);
+        Objet o=new Objet(utilite,couts); //gestion d'erreurs ici?
         return o;
     }
-
+    
+    
     /**
      * méthode qui transforme une liste de projets de l'équipe municipale en une liste d'objets pour le sac à dos
      * @param listeProjets la liste de projets de l'équipe municipale
@@ -50,7 +53,13 @@ public class VersSacADos {
      */
     public List<Objet> transformerAll(Projet[] listeProjets){
         List<Objet> objets=new LinkedList<>();
+        if (listeProjets == null) {
+            throw new IllegalArgumentException("La liste de projets est nulle");
+        }
         for (Projet p : listeProjets){
+		    	if (p == null) {
+		    	    throw new IllegalArgumentException("Projet nul fourni à transformation()");
+		    	}
             objets.add(transformation(p));
         }
         return objets;
@@ -62,9 +71,16 @@ public class VersSacADos {
      * @param budgets  les budgets pour chaque secteur
      * @return  un sac à dos valide 
      */
-    public SacADos creerSAD(Projet[] listeProjets, int[] budgets){
-        List<Objet> objets =transformerAll(listeProjets);
-        int dimension=3; //j'ai mis 3 mais peut être 1 selon l'interprétation
+    
+    public SacADos creerSADProjet(Projet[] listeProjets, int[] budgets){
+	    	if (budgets == null || budgets.length != 3) {
+	    	    throw new IllegalArgumentException("Budgets invalides car il est attendu 3 budgets");
+	    	}
+	    	if (listeProjets == null) {
+	    	    throw new IllegalArgumentException("Liste de projets nulle");
+	    	}
+        List<Objet> objets = transformerAll(listeProjets);
+        int dimension=3; 
         SacADos s = new SacADos(dimension, budgets, objets);
         return s;
     }
@@ -76,12 +92,18 @@ public class VersSacADos {
      * @throws IOException  en cas d'erreur de lecture du fichier
      */
     public static MKP traitementFic(String nomFic) throws IOException{
+        if (nomFic == null || nomFic.isEmpty()) {
+            throw new IllegalArgumentException("Nom de fichier vide ou nul");
+        }
         try (BufferedReader br = new BufferedReader(new FileReader(nomFic))) {
             StringTokenizer st=new StringTokenizer(br.readLine());
             int n = Integer.parseInt(st.nextToken());
             //System.out.println(n);
             int k = Integer.parseInt(st.nextToken());
             //System.out.println(k);
+            if (n <= 0 || k <= 0) {
+                throw new IOException("Paramètres invalides : n et k doivent être strictement positifs");
+            }
             int opt = Integer.parseInt(st.nextToken());
             //System.out.println(opt);
             int[] utilites = new int[n];
@@ -141,11 +163,15 @@ public class VersSacADos {
      * méthode qui transforme une instance de MKP en un sac à dos
      * @param instance l'instance de MKP
      * @return un sac à dos valide
+     * @throws IOException 
      */
-    public static SacADos ficToSac(MKP instance){ 
-        int n = instance.n;
+    public static SacADos ficToSac(MKP instance) throws IOException{ 
+        int n = instance.n; 
         int k = instance.k;
-        List<Objet> objets = new LinkedList<>();
+        if (n <= 0 || k <= 0) {
+            throw new IOException("Paramètres invalides : n et k doivent être strictement positifs.");
+        }
+        List<Objet> objets = new LinkedList<>(); //liste des objets du sac à dos 
         //maintenant je veux créer tous les objets qui iront dans le sac à dos
         for (int i = 0; i < n; i++) {
             int[] couts = new int[k]; //tableau de taille nb de budgets qui est remplie dans la boucle suivante
@@ -161,8 +187,10 @@ public class VersSacADos {
         SacADos s = new SacADos(dimension, budgets, objets); //on crée notre sac à dos 
         return s;
     }
+    
     public static void main(String args[]){
         String nomFic="C:/Users/utilisateur/OneDrive - Université Paris Sciences et Lettres/Documents/GitHub/gk/gk01.dat";
+        //nom probablement à changer (je vais essayer de mettre tous les fichiers sur le git)
         try {
             MKP M=traitementFic(nomFic);
             System.out.println(M.toString());
