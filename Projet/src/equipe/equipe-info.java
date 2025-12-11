@@ -11,4 +11,4 @@
  */
 package equipe;
 
-//commande à utiliser pour générer la javadoc : javadoc -d docs -sourcepath src Projet/src/equipe/*.java
+//commande à utiliser pour générer la javadoc de ce package : javadoc -d docs -sourcepath src Projet/src/equipe/*.java

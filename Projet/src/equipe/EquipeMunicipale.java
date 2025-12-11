@@ -23,6 +23,7 @@ public class EquipeMunicipale {
     public void setExperts(List<Expert> experts) {
         this.experts = experts;
     }
+    
     /**
      * setter qui permet d'attribuer un élu à l'équipe municipale
      * @param elu est l'élu en question

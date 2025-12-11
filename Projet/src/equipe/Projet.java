@@ -1,5 +1,5 @@
 /**
- * Un projet est un type de texte administrif 
+ * Un projet est un type de texte administratif utilisé dans les équipes municipales
  * @author Romane FAYON
  */
 
@@ -8,11 +8,10 @@ import java.util.*;
 
 public class Projet {
 	private final String titre; //le titre ne pourra pas changé sinon risque de confusion à la mairie donc final /** Nom du projet */
-	private String description="";  /** décrit le projet (but, cause, conséquences...) */
+	private String description;
 	private final Secteur secteur; //le secteur ne pourra pas changé donc final /** secteur du projet i.e quel domaine il concerne */
 	private int benefice=0;   /** bénéfice du projet */
-	Map<Specialisation, Integer> cout; //je cree un dico pour associer chaque specialisation à leur cout /** relie chaque secteur à son cout */
-	
+	public Map<Specialisation, Integer> cout; //je cree un dico pour associer chaque specialisation à leur cout /** relie chaque secteur à son cout */
 
 	/**
 	 * Constructeur d'un projet
@@ -47,7 +46,7 @@ public class Projet {
 	 * @return Description du projet
 	 */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
 	/**
@@ -94,7 +93,7 @@ public class Projet {
 
 	@Override //je redefinis la méthode toString de Object pour l'afficher
 	/**
-	 * Redéfinitin de la méthode toString pour afficher un projet 
+	 * Redéfinition de la méthode toString pour afficher un projet 
 	 * @return Affichage avec les caractéristiques du projet 
 	 */
 	public String toString() {

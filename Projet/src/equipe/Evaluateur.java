@@ -8,7 +8,7 @@ import java.util.Random;
 
 
 public class Evaluateur extends Employe{
-	private Specialisation Specialite; /** Spécialité de l'évaluateur(parmi une liste prédéfinie) */
+	public Specialisation Specialite; /** Spécialité de l'évaluateur(parmi une liste prédéfinie) */
 	private Random rand = new Random(); 
     int min = 0;     // 0 € /** Minimum du cout du budget */
     int max = 500000;    // 500 000 € /** Maximum du cout du budget */
@@ -56,6 +56,7 @@ public class Evaluateur extends Employe{
 		}
 		// peut etre plus simple comme ca : p.setCout(specialite, cout)
 	}
-     
 }
  
+
+//j'ai choisi d'implémenter Evaluateur en classe fille qui hérite de Employé car être évaluateur est un cas particulier d'employé'

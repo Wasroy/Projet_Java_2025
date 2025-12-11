@@ -2,7 +2,6 @@
  * Les experts sont des employés qui vont proposer des projets
  */
 
-
 package equipe;
 import java.util.Random;
 
@@ -17,7 +16,7 @@ public class Expert extends Employe {
 	 * @param Age Âge de l'expert
 	 * @param s Secteur de l'expert
 	 */
-	Expert(String Nom, String Prenom, int Age, Secteur[] s){
+	public Expert(String Nom, String Prenom, int Age, Secteur[] s){
 		super(Nom, Prenom, Age);
 		secteurs=s;
 	}
@@ -35,3 +34,5 @@ public class Expert extends Employe {
 	}
 	
 }
+
+//j'ai choisi d'implémenter Expert en classe fille qui hérite de Employé car être expert est un cas particulier d'employé

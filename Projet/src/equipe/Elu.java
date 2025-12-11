@@ -27,3 +27,6 @@ public class Elu extends Employe {
 		return benefice;
 	}
 }
+
+
+//j'ai choisi d'implémenter élu sous forme de classe fille qui hérité de employé car être élu est un sous cas d'être employé

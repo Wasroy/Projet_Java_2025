@@ -4,8 +4,6 @@
 
 package equipe;
 
-//classe abstraite car pas de réalité physique 
-
 public abstract class Employe { 
 	String Nom; /**Nom de l'employé */
 	String Prenom; /** Prénom de l'employé */
@@ -24,3 +22,8 @@ public abstract class Employe {
 	}
 
 }
+
+
+/*j'ai choisi une classe abstraite car pas de réalité physique dans la mesure où chaque employé 
+ * a une fonction plus précise (qui sera implémentée aussi)
+*/
