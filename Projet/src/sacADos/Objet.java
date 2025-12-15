@@ -5,7 +5,15 @@ public class Objet{
 	private int[] couts;
 
 	public Objet(int utilite, int[] couts){
+		if (utilite < 0){
+			throw new IllegalArgumentException("L'utilite doit etre positive.");
+		}
 		this.utilite = utilite;
+		for (int i = 0; i < couts.length; i++){
+			if (couts[i] < 0){
+				throw new IllegalArgumentExeption("Tous les couts doivent etre positifs");
+			}
+		}
 		this.couts = couts;
 	}
 
