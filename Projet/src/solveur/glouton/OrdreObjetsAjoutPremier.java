@@ -1,6 +1,7 @@
 package solveur.glouton;
 import sacADos.Objet;
 import java.util.Comparator;
+import java.lang.Exception;
 
 public class OrdreObjetsAjoutPremier implements Comparator<Objet> {
 	
@@ -18,13 +19,13 @@ public class OrdreObjetsAjoutPremier implements Comparator<Objet> {
 			double f1 = (double) o1.getUtilite()/(sommeCouts(o1));
 		}
 		catch(ArithmeticException e){
-			System.out.println("La somme des couts vaut 0. Division impossible.");
+			System.out.println("Division par 0 impossible.");
 		}
 		try{
 			double f2 = (double) o2.getUtilite()/(sommeCouts(o2));
 		}
 		catch(ArithmeticException e){
-			System.out.println("La somme des couts vaut 0. Division impossible.");
+			System.out.println("Division par 0 impossible.");
 		}
 
 		if (f1>f2)
