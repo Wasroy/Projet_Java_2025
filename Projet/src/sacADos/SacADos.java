@@ -3,7 +3,7 @@ import java.util.List;
 import sacADos.Objet;
 
 
-public class SacADos{
+public class SacADos{ //peut etre rajouté final ?
 	private int dimension;
 	private int[] budgets;
 	private List<Objet> objets;
