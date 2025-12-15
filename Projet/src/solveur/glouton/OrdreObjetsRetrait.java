@@ -1,6 +1,7 @@
 package solveur.glouton;
 import sacADos.*;
 import java.util.Comparator;
+import java.lang.Exception;
 
 public class OrdreObjetsRetrait implements Comparator<Objet> {
 	
