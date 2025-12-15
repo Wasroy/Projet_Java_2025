@@ -14,8 +14,18 @@ public class OrdreObjetsAjoutPremier implements Comparator<Objet> {
 
 	@Override
 	public int compare(Objet o1, Objet o2){ //on compare en coef du ratio utilite/cout total
-		double f1 = (double) o1.getUtilite()/(sommeCouts(o1));
-		double f2 = (double) o2.getUtilite()/(sommeCouts(o2));
+		try{
+			double f1 = (double) o1.getUtilite()/(sommeCouts(o1));
+		}
+		catch(ArithmeticException e){
+			System.out.println("La somme des couts vaut 0. Division impossible.");
+		}
+		try{
+			double f2 = (double) o2.getUtilite()/(sommeCouts(o2));
+		}
+		catch(ArithmeticException e){
+			System.out.println("La somme des couts vaut 0. Division impossible.");
+		}
 
 		if (f1>f2)
 			return -1;
