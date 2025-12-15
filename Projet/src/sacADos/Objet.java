@@ -1,4 +1,5 @@
 package sacADos;
+import java.lang.Exception;
 
 public class Objet{
 	private int utilite; //amelioration de l'encapsulation en rajoutant private
