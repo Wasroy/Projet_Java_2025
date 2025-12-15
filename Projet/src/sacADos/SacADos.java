@@ -3,14 +3,22 @@ import java.util.List;
 import sacADos.Objet;
 
 
-public class SacADos{ //peut etre rajouté final ?
+public class SacADos{ //peut etre rajouter final ?
 	private int dimension;
 	private int[] budgets;
 	private List<Objet> objets;
 
 
 	public SacADos(int dimension, int[] budgets, List<Objet> objets){ //dimension est le nombre de cout d'un objet (cout eco, social, environnement..)
+		if (dimension < 0){
+			throw new IllegalArgumentException("La dimension doit etre positive.");
+		}
 		this.dimension = dimension;
+		for (int i = 0; i < budgets.length; i++){
+			if (budgets[i] < 0){
+				throw new IllegalArgumentException("Tous les budgets doivent etre positifs.");
+			}
+		}
 		this.budgets = budgets;
 		this.objets = objets;
 	}
