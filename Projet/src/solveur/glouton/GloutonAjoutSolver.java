@@ -5,9 +5,16 @@ import java.util.Comparator;
 import java.util.List;
 import sacADos.*; //pour trier 
 
-
+/** methode gloutonne a ajout
+* @author William Miserolle Nathalie Habib
+*/
 
 public class GloutonAjoutSolver{
+
+/** methode gloutonne a ajout
+* @param sac le sac a dos
+* @param comp le critere de comparaison (premier ou deuxieme critere d'ordre)
+*/
 	
 	public static List<Objet> methodeGloutonneAjout(SacADos sac, Comparator<Objet> comp) {
 		
