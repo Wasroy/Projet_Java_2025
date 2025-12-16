@@ -16,7 +16,7 @@ public class SacADos{ //peut etre rajouter final ?
 * @param dimension est la dimension du sac, la dimension correspond au nombre de couts d'un objet (cout social, economique etc)
 * @param budgets correspond a la liste des budgets du sac
 * @param objets correspond a la liste des objets du sac
-* @throws si la dimension est negative ou si un budget de la liste est negatif
+* @throws IllegalArgumentException si la dimension est negative ou si un budget de la liste est negatif
 */
 	public SacADos(int dimension, int[] budgets, List<Objet> objets){
 		if (dimension < 0){
