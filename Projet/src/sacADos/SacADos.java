@@ -12,7 +12,7 @@ public class SacADos{ //peut etre rajouter final ?
 	private int[] budgets;
 	private List<Objet> objets;
 
-/** constructeur du sac a dos
+/** CONSTRUCTEUR du sac a dos
 * @param dimension est la dimension du sac, la dimension correspond au nombre de couts d'un objet (cout social, economique etc)
 * @param budgets correspond a la liste des budgets du sac
 * @param objets correspond a la liste des objets du sac
@@ -32,17 +32,20 @@ public class SacADos{ //peut etre rajouter final ?
 		this.objets = objets;
 	}
 
-/** getter permet de recuperer les objets du sac dans les autres fichiers
+/** GETTER permet de recuperer les objets du sac dans les autres fichiers
+* @return la liste des objets
 */
 	public List<Objet> getObjets(){
 		return objets;
 	}
-/** getter permet de recuperer la dimension du sac dans les autres fichiers
+/** GETTER permet de recuperer la dimension du sac dans les autres fichiers
+* @return la dimension
 */
 	public int getDimension(){
 		return dimension;
 	}
-/** getter permet de recuperer les budgets du sac dans les autres fichiers
+/** GETTER permet de recuperer les budgets du sac dans les autres fichiers
+* @return la liste des budgets
 */
 	public int[] getBudgets(){
 		return budgets;
