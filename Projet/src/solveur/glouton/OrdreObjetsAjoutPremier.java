@@ -1,7 +1,6 @@
 package solveur.glouton;
-import sacADos.Objet;
 import java.util.Comparator;
-import java.lang.Exception;
+import sacADos.Objet;
 
 public class OrdreObjetsAjoutPremier implements Comparator<Objet> {
 	
@@ -14,25 +13,38 @@ public class OrdreObjetsAjoutPremier implements Comparator<Objet> {
 	}
 
 	@Override
-	public int compare(Objet o1, Objet o2){ //on compare en coef du ratio utilite/cout total
-		try{
-			double f1 = (double) o1.getUtilite()/(sommeCouts(o1));
+	public int compare(Objet o1, Objet o2){
+
+		int somme1 = sommeCouts(o1);
+
+		int somme2 = sommeCouts(o2);
+		
+		if (somme1 == 0 || somme2 == 0) {
+			//gerer le cas division par 0 : retourner un ordre par défaut
+			if (somme1 == 0 && somme2 == 0){
+				return 0;
+			} 
+			if (somme1 == 0) {
+				return 1; //o1 ira a la fin
+			}
+			return -1; 
 		}
-		catch(ArithmeticException e){
-			System.out.println("Division par 0 impossible.");
+		
+		double f1 = (double) o1.getUtilite() / somme1;
+
+		double f2 = (double) o2.getUtilite() / somme2;
+
+		if (f1 > f2) {
+			return -1;
 		}
-		try{
-			double f2 = (double) o2.getUtilite()/(sommeCouts(o2));
+		else if (f1 == f2){
+			return 0;
 		}
-		catch(ArithmeticException e){
-			System.out.println("Division par 0 impossible.");
+		else{
+			return 1;
 		}
 
-		if (f1>f2)
-			return -1;
-		else if (f1 == f2)
-			return 0;
-		else
-			return 1;
+
+		
 	}
 }

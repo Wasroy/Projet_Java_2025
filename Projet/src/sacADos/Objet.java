@@ -12,7 +12,7 @@ public class Objet{
 		this.utilite = utilite;
 		for (int i = 0; i < couts.length; i++){
 			if (couts[i] < 0){
-				throw new IllegalArgumentExeption("Tous les couts doivent etre positifs");
+				throw new IllegalArgumentException("Tous les couts doivent etre positifs");
 			}
 		}
 		this.couts = couts;
