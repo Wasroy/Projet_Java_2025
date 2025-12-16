@@ -1,9 +1,11 @@
 package solveur.glouton;
-import sacADos.*;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Collections; //pour trier 
+import java.util.List;
+import sacADos.*; //pour trier 
+
+
 
 public class GloutonAjoutSolver{
 	
