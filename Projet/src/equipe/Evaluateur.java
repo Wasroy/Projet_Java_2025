@@ -8,7 +8,7 @@ import java.util.Random;
 
 
 public class Evaluateur extends Employe{
-	public Specialisation Specialite; /** Spécialité de l'évaluateur(parmi une liste prédéfinie) */
+	private Specialisation Specialite; /** Spécialité de l'évaluateur(parmi une liste prédéfinie) */
 	private Random rand = new Random(); 
     int min = 0;     // 0 € /** Minimum du cout du budget */
     int max = 500000;    // 500 000 € /** Maximum du cout du budget */
@@ -32,6 +32,14 @@ public class Evaluateur extends Employe{
         }
 		Specialite=s;
 		
+	}
+	
+	/**
+	 * getter pour accéder à la spécialisation d'un évaluateur
+	 * @return la spécialisation d'un évaluateur
+	 */
+	public Specialisation getSpecialisation() {
+		return this.Specialite;
 	}
 	
 	/**

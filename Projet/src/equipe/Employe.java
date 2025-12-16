@@ -5,9 +5,9 @@
 package equipe;
 
 public abstract class Employe { 
-	String Nom; /**Nom de l'employé */
-	String Prenom; /** Prénom de l'employé */
-	int Age; /** Âge (en années) de l'employé */
+	private String Nom; /**Nom de l'employé */
+	private String Prenom; /** Prénom de l'employé */
+	private int Age; /** Âge (en années) de l'employé */
 	
 	/**
 	 * Constructeur d'un employé
@@ -19,6 +19,29 @@ public abstract class Employe {
 		Nom=n;
 		Prenom=p;
 		Age=a;
+	}
+	
+	/**
+	 * getter pour accéder au nom de l'employé
+	 * @return le nom de l'employé
+	 */
+	public String getNom() {
+		return this.Nom;
+	}
+	/**
+	 * getter pour accéder au prénom de l'employé
+	 * @return le prénom de l'employé
+	 */
+	public String getPrenom() {
+		return this.Prenom;
+	}
+	
+	/**
+	 * getter pour accéder à l'âge de l'employé
+	 * @return l'âge de l'employé 
+	 */
+	public int getAge() {
+		return this.Age;
 	}
 
 }

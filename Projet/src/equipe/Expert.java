@@ -6,7 +6,7 @@ package equipe;
 import java.util.Random;
 
 public class Expert extends Employe {
-	Secteur[] secteurs; /** Liste des secteurs de l'expert (l'expert n'a pas le droit de proposer des projets qui ne touchent pas ses domaines d'expertise) */
+	private Secteur[] secteurs; /** Liste des secteurs de l'expert (l'expert n'a pas le droit de proposer des projets qui ne touchent pas ses domaines d'expertise) */
 	private final Random rand = new Random(); //j'ai mis final car techniquement ne pourra pas être modifié  
 
 	/**
@@ -31,6 +31,14 @@ public class Expert extends Employe {
 		String description = "Projet dans le secteur " + s;
 		int benefice=0; //sera maj plus tard 
 		return new Projet(titre, description, s, benefice);
+	}
+	
+	/**
+	 * getter pour accéder au secteur d'un évaluateur
+	 * @return le secteur d'un évaluateur
+	 */
+	public Secteur[] getSecteur() {
+		return this.secteurs;
 	}
 	
 }
