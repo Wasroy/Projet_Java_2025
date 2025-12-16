@@ -2,7 +2,16 @@ package solveur.glouton;
 import java.util.Comparator;
 import sacADos.Objet;
 
+/** premier critere d'ordre pour la methode gloutonne a ajout
+* @author Nathalie Habib
+*/
+
 public class OrdreObjetsAjoutPremier implements Comparator<Objet> {
+
+/** calcule la somme des couts d'un objet, la fonction getCoutTotal() de la classe objet aurait pu aussi etre utilisee
+* @param o1 objet du sac a dos
+* @return somme la somme des couts pour l'objet o1
+*/
 	
 	public static int sommeCouts(Objet o1){ //refait propre mais on aurait pu utiliser la fct getCoutTotal() de la classe Objet
 		int somme = 0;
@@ -12,6 +21,10 @@ public class OrdreObjetsAjoutPremier implements Comparator<Objet> {
 		return somme;
 	}
 
+/** premier critere de comparaison entre les objets (choisir lequel est le plus interessant)
+* @return 0, 1 ou -1 selon l'objet qui est le plus interessant
+*/
+	
 	@Override
 	public int compare(Objet o1, Objet o2){
 
