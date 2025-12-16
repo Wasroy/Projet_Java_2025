@@ -3,14 +3,22 @@ import java.util.List;
 import sacADos.Objet;
 import java.lang.Exception;
 
+/** SacADos permet de creer un sac a dos qui possede une dimension, une liste d'objets et une liste de budgets
+@author Nathalie Habib
+*/
 
 public class SacADos{ //peut etre rajouter final ?
 	private int dimension;
 	private int[] budgets;
 	private List<Objet> objets;
 
-
-	public SacADos(int dimension, int[] budgets, List<Objet> objets){ //dimension est le nombre de cout d'un objet (cout eco, social, environnement..)
+/** constructeur du sac a dos
+* @param dimension est la dimension du sac, la dimension correspond au nombre de couts d'un objet (cout social, economique etc)
+* @param budgets correspond a la liste des budgets du sac
+* @param objets correspond a la liste des objets du sac
+* @throws si la dimension est negative ou si un budget de la liste est negatif
+*/
+	public SacADos(int dimension, int[] budgets, List<Objet> objets){
 		if (dimension < 0){
 			throw new IllegalArgumentException("La dimension doit etre positive.");
 		}
@@ -24,18 +32,24 @@ public class SacADos{ //peut etre rajouter final ?
 		this.objets = objets;
 	}
 
-	//getter pour pouvoir recuperer les objets du sac dans les autres fichiers
+/** getter permet de recuperer les objets du sac dans les autres fichiers
+*/
 	public List<Objet> getObjets(){
 		return objets;
 	}
-
+/** getter permet de recuperer la dimension du sac dans les autres fichiers
+*/
 	public int getDimension(){
 		return dimension;
 	}
-
+/** getter permet de recuperer les budgets du sac dans les autres fichiers
+*/
 	public int[] getBudgets(){
 		return budgets;
 	}
+
+/** afficher le contenu du sac a dos (dimension, liste des budgets et liste des objets)
+*/
 
 	public void afficherSacADos(){
 		System.out.println("Sac : ");
