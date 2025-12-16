@@ -5,6 +5,11 @@ import java.util.List;
 import solveur.glouton.GloutonAjoutSolver;
 import solveur.glouton.OrdreObjetsAjoutPremier;
 
+/** demonstration de la methode glouton ajout (ici avec le premier critere d'ajout mais fonctionne aussi pour le deuxieme)
+* @author William Miserolle
+*/
+
+
 public class DemoSacGlouton {
     //Objet : valeur d'utilité, couts {1er, 2eme, 3eme, etc.}
     public static void main(String[] args) {
@@ -27,7 +32,7 @@ public class DemoSacGlouton {
 
         sac.afficherSacADos();
 
-        List<Objet> resultatGloutonAjoutPremier = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutPremier()); //marche aussi pour le 2e critere avec new OrdreObjetsAjoutDeuxieme()
+        List<Objet> resultatGloutonAjoutPremier = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutPremier());
         
         System.out.println("--------------------------------");
         System.out.println("Liste des objets selectionnes par la methode gloutonne a ajout premier :");
