@@ -11,7 +11,7 @@ public class Projet {
 	private String description;
 	private final Secteur secteur; //le secteur ne pourra pas changé donc final /** secteur du projet i.e quel domaine il concerne */
 	private int benefice=0;   /** bénéfice du projet */
-	public Map<Specialisation, Integer> cout; //je cree un dico pour associer chaque specialisation à leur cout /** relie chaque secteur à son cout */
+	private Map<Specialisation, Integer> cout; //amelioration de l'encapsulation : je cree un dico pour associer chaque specialisation à leur cout /** relie chaque secteur à son cout */
 
 	/**
 	 * Constructeur d'un projet

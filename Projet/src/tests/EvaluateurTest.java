@@ -22,7 +22,7 @@ public class EvaluateurTest {
     public void testEvaluerCout() {
         Projet projet = new Projet("Projet Test", "Description test", Secteur.SPORT, 0);
         EvaluateurUnderTest.evaluerCout(projet);
-        int cout = projet.cout.get(EvaluateurUnderTest.Specialite);
+        int cout = projet.getCout(EvaluateurUnderTest.Specialite); //utilisation du getter au lieu d'acceder directement
         org.junit.Assert.assertTrue("Le coût évalué doit être entre 0 et 500000", cout >= 0 && cout <= 500000);
     }
 
