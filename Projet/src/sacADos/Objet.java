@@ -12,7 +12,7 @@ public class Objet{
 
 	/**
 	 * CONSTRUCTEUR
-	 * @param utilite la valeur d'utilite de l'objet (positif?)
+	 * @param utilite la valeur d'utilite de l'objet
 	 * @param couts le tableau des couts pour chaque dimension (tous doivent etre positifs)
 	 * @throws IllegalArgumentException si l'utilite ou un des couts est negatif
 	 */
@@ -55,7 +55,7 @@ public class Objet{
 
 	/**
 	 * GETTER & calcule la somme de tous les couts de l'objet
-	 * très uitle pour certains criteres de tri des objets
+	 * tres utile pour certains criteres de tri des objets
 	 * @return la somme de tous les couts
 	 */
 	public int getCoutTotal(){
@@ -70,7 +70,7 @@ public class Objet{
 	}
 
 	/**
-	 * affiche les caracteristiques de l'obj
+	 * affiche les caracteristiques de l'objet
 	 * affiche l'utilite, chaque cout individuellement et le cout total
 	 */
 	public void afficherObjet(){
