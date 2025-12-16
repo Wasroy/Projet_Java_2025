@@ -6,7 +6,16 @@ import java.util.Comparator;
 import java.util.Collections;
 import java.util.Iterator; // va etre utile pour supprimer un element pdnt qu'on parcourt la liste
 
+/** methode gloutonne a retrait
+* @author William Miserolle
+*/
+
 public class GloutonRetraitSolver{
+
+/** methode gloutonne a retrait
+* @param sac le sac a dos
+* @param comp le critere d'ordre retrait
+*/
 	
 	public static List<Objet> methodeGloutonneRetrait(SacADos sac, Comparator<Objet> comp) {
 		
