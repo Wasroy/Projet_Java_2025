@@ -68,7 +68,7 @@ public class MKP {
      * @return le tableau des utilites
      */
     public int[] getUtilites() {
-    	return this.utilites;
+    		return this.utilites;
     }
     
     /**
@@ -76,7 +76,7 @@ public class MKP {
      * @return la matrice des contraintes (k lignes, n colonnes)
      */
     public int[][] getContraintes() {
-    	return this.contraintes;
+    		return this.contraintes;
     }
     
     /**
