@@ -15,6 +15,7 @@ import pont.*;
 public class Main {
 	
 	private static SacADos sacCourant = null;	
+	private static List<Objet> solutionCourante = null; //on stocke la solution courante (sera remplie après un solveur)
 	private static Scanner scanner = new Scanner(System.in);
 	
 	public static void main(String[] args) {
@@ -186,10 +187,12 @@ public class Main {
 				resultat = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutPremier());
 				System.out.println("\nResultat avec premier critere :");
 				afficherResultat(resultat);
+				solutionCourante = resultat;
 			case 2 : 
 				resultat = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutDeuxieme());
 				System.out.println("\nResultat avec deuxieme critere :");
 				afficherResultat(resultat);
+				solutionCourante = resultat;
 			default : System.out.println("Choix invalide, retour au menu");
 			}		
 	}
@@ -207,6 +210,7 @@ public class Main {
 		List<Objet> resultat = GloutonRetraitSolver.methodeGloutonneRetrait(sac, new OrdreObjetsRetrait(sac));
 		System.out.println("\nResultat avec methode retrait :");
 		afficherResultat(resultat);
+		solutionCourante = resultat;
 	}
 	
 	/**
@@ -217,7 +221,21 @@ public class Main {
 		if (sac == null) {
 			return;
 		}
+		
 		System.out.println("\n----Hill Climbing-------");
+		
+	    if (solutionCourante != null && !solutionCourante.isEmpty()) {
+	        System.out.println("Une solution existe déjà. Voulez-vous l'améliorer avec Hill Climbing ?");
+	        System.out.println("1 - Oui, utiliser la solution existante");
+	        System.out.println("2 - Non, partir de zéro");
+	        System.out.print("Votre choix : ");
+	        int choix = lireChoix();
+	        if (choix == 1) {
+	            // Hill Climbing à partir de solutionCourante (idée : on commence par un solveur glouton car approche plus grossière puis HillClimbing pour affiner le résultat
+	        }
+	        // Sinon continue normalement
+	    }
+	
 		System.out.println("Choisissez la variante :");
 		System.out.println("1 - Hill Climbing normale (tous les voisins)");
 		System.out.println("2 - Hill Climbing aleatoire (nombre limite de voisins)");
@@ -245,6 +263,7 @@ public class Main {
 			return;
 		}
 		afficherResultat(resultat);
+		solutionCourante = resultat;
 	}
 	
 	/**
@@ -318,64 +337,42 @@ public class Main {
 			System.out.print("Entrez un Budget pour la dimension " + (i+1) + " : ");
 			budgets[i] = lireChoix();
 		}
-		
 		System.out.print("Nombre d'objets : ");
 		int nbObjets = lireChoix();
-		
 		if (nbObjets <= 0) {
 			System.out.println("Nombre d'objets invalide");
-
 			return null;
-
 		}
-		
 		List<Objet> objets = new ArrayList<>();
-		
 		//on cree chaque objet en demandant utilite et couts
 		for (int i=0; i<nbObjets; i++) {
-			
 			System.out.println("\nObjet " + (i+1) + " :");
 			System.out.print("Utilite : ");
 			int utilite = lireChoix();
-			
 			int[] couts = new int[dimension];
-			
 			for (int j=0; j<dimension; j++) {
-
 				System.out.print("Cout dimension " + (j+1) + " : ");
 				couts[j] = lireChoix();
-
 			}
-			
 			try {
 				Objet obj = new Objet(utilite, couts);
 				objets.add(obj);
-
 			}
 			catch (IllegalArgumentException e) {
 				System.out.println("Erreur : " + e.getMessage());
 				System.out.println("Objet ignore");
-
 			}
 		}
-		
 		try {
-
 			SacADos sac = new SacADos(dimension, budgets, objets);
 			System.out.println("\nSac a dos cree :  ");
-
 			sac.afficherSacADos();
-
 			return sac;
 		}
 		catch (IllegalArgumentException err) {
-
 			System.out.println("Erreur lors de la creation du sac : " + err.getMessage());
-
 			return null;
 		}
-
-
 	}
 	
 	/**
