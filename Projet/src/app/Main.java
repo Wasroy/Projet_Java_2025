@@ -83,6 +83,10 @@ public class Main {
 	    }
 	}
 	
+	/**
+	 * génère un sac à dos aléatoire
+	 * @return une instance de sac à dos 
+	 */
 	private static SacADos SacADosAleatoire() {
 		List<Objet> objets = new ArrayList<>();
 	    Random r = new Random();
@@ -110,6 +114,10 @@ public class Main {
 	    return sac;
 	}
 	
+	/**
+	 * génère un sac à dos à partir d'un fichier .dat
+	 * @return une instance de sac à dos
+	 */
 	private static SacADos SacADosFichier() {
 		System.out.print("Entrez le chemin du fichier .dat : ");
 		String chemin = scanner.nextLine();
@@ -121,6 +129,10 @@ public class Main {
 	    return sac;
 	}
 	
+	/**
+	 * génère un sac à dos à partir de projets de l'équipe municipale
+	 * @return une instance de sac à dos
+	 */
 	private static SacADos SacADosProjets() {
 	    // Création
 		System.out.print("Combien de projets voulez vous: ");
@@ -154,14 +166,14 @@ public class Main {
 	}
 	
 	/**
-	 *menu pour la methode gloutonne a ajout
+	 *menu pour la methode gloutonne à ajout
 	 */
 	private static void menuGloutonAjout() {
 		SacADos sac = sacCourant;
 		if (sac == null) {
 			return; //on sort si l'utilisateur a annulé
 		}
-		System.out.println("\n--- Methode gloutonne a ajout ---");
+		System.out.println("\n--- Methode gloutonne à ajout ---");
 		System.out.println("Choisissez le critere d'ordre :");
 		System.out.println("1 - Premier critere (utilite/cout total)");
 		System.out.println("2 - Deuxieme critere (utilite/cout max)");
@@ -183,14 +195,14 @@ public class Main {
 	}
 	
 	/**
-	 *menu pour la methode gloutonne a retrait
+	 *menu pour la methode gloutonne à retrait
 	 */
 	private static void menuGloutonRetrait() {
 		SacADos sac = sacCourant;
 		if (sac == null) {
 			return;
 		}
-		System.out.println("\n--------Methode gloutonne a retrait ------");
+		System.out.println("\n--------Methode gloutonne à retrait ------");
 		System.out.println("Critère de retrait");
 		List<Objet> resultat = GloutonRetraitSolver.methodeGloutonneRetrait(sac, new OrdreObjetsRetrait(sac));
 		System.out.println("\nResultat avec methode retrait :");
@@ -243,8 +255,8 @@ public class Main {
 	private static SacADos SacADosManuel() {
 		System.out.println("\n----Creation du sac a dos------");
 		System.out.println("Choisissez :");
-		System.out.println("1 - Sac a dos par defaut (pour tester rapidement)");
-		System.out.println("2 - Sac a dos personnalise");
+		System.out.println("1 - Sac à dos par defaut (pour tester rapidement)");
+		System.out.println("2 - Sac à dos personnalise");
 		System.out.print("Votre choix : ");
 		int choix = lireChoix();
 		if (choix == 1) {
@@ -284,7 +296,6 @@ public class Main {
 		return sac;
 	}
 	
-
 	/**
 	 *cree un sac a dos personnalise en demandant a l'utilisateur
 	 * @return le sac a dos ou null si erreur
