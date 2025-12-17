@@ -1,0 +1,1 @@
+cd "C:\Users\willi\Desktop\Projet_Java_2025\Projet"; javac -d bin -sourcepath src src/app/Main.java; cd bin; java app.Main
