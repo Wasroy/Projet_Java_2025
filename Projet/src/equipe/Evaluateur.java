@@ -1,6 +1,5 @@
 /**
  * Les évaluateurs sont des types d'employés qui vont évaluer le coût d'un projet dans UN secteur 
- * @author Romane FAYON
  */
 
 package equipe;

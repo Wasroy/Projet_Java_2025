@@ -1,5 +1,4 @@
 /**Simule une équipe municipale
- * @author Romane FAYON
  */
 
 package equipe;

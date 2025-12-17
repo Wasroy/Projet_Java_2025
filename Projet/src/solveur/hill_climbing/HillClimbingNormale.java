@@ -4,6 +4,11 @@ import java.util.List;
 import sacADos.*;
 import solveur.Solveur;
 
+/**
+ * classe qui implemente l'algo de hill climbing classique pour resoudre le sac a dos
+ * on part d'une solution vide et on explore tous les voisins pour trouver une meilleure solution
+ * on arrete quand aucun voisin n'est meilleur (optimum local atteint)
+ */
 
 public class HillClimbingNormale implements Solveur {
 

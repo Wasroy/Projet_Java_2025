@@ -4,7 +4,6 @@ import sacADos.Objet;
 import java.lang.Exception;
 
 /** SacADos permet de creer un sac a dos qui possede une dimension, une liste d'objets et une liste de budgets
-@author Nathalie Habib
 */
 
 public class SacADos{ //peut etre rajouter final ?

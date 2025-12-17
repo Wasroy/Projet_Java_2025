@@ -1,6 +1,5 @@
 /**
  * Un projet est un type de texte administratif utilisé dans les équipes municipales
- * @author Romane FAYON
  */
 
 package equipe;

@@ -1,7 +1,9 @@
 package pont;
 
 /**
- * Classe qui modélise les fichiers MPK
+ * classe qui modélise les fichiers MKP (Multi-dimensional Knapsack Problem)
+ * sert a stocker les donnees lues depuis un fichier benchmark .dat
+ * contient le nombre d'objets, le nombre de budgets, les utilites, les contraintes et les budgets
  */
 
 import java.util.Arrays;
@@ -79,6 +81,7 @@ public class MKP {
     
     /**
      * redéfinition de la méthode toString pour afficher les caractéristiques d'un fichier MPK
+     * @return une chaine de caracteres avec toutes les infos du fichier MKP
      */
     @Override
     public String toString(){

@@ -1,5 +1,4 @@
 /** Caractérisent les employés de la mairie
- * @author Romane FAYON
  */
 
 package equipe;

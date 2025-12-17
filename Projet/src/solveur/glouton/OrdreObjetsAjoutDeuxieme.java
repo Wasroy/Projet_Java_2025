@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.lang.Exception;
 
 /** deuxieme critere d'ordre pour la methode gloutonne a ajout
-* @author Nathalie Habib
 */
 
 public class OrdreObjetsAjoutDeuxieme implements Comparator<Objet> {

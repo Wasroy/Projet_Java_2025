@@ -14,7 +14,6 @@ import static java.lang.Integer.parseInt;
 
 /**
  * Permet de transformer une instance de MKP (Multi-dimensional Knapsack Problem) ou un projet de l'équipe municipale en un objet pour le sac à dos
- * @author Romane FAYON
  */
 
 //j'importe les classes car elles sont dans un autre package

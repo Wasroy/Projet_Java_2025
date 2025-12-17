@@ -3,7 +3,6 @@ import java.util.Comparator;
 import sacADos.Objet;
 
 /** premier critere d'ordre pour la methode gloutonne a ajout
-* @author Nathalie Habib
 */
 
 public class OrdreObjetsAjoutPremier implements Comparator<Objet> {
@@ -22,6 +21,9 @@ public class OrdreObjetsAjoutPremier implements Comparator<Objet> {
 	}
 
 /** premier critere de comparaison entre les objets (choisir lequel est le plus interessant)
+* on utilise le ratio utilite/cout total pour comparer
+* @param o1 premier objet a comparer
+* @param o2 deuxieme objet a comparer
 * @return 0, 1 ou -1 selon l'objet qui est le plus interessant
 */
 	

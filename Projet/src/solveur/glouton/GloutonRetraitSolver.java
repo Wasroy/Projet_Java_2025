@@ -6,14 +6,21 @@ import java.util.Comparator;
 import java.util.Collections;
 import java.util.Iterator; // va etre utile pour supprimer un element pdnt qu'on parcourt la liste
 
+/**
+ * classe qui implemente la methode gloutonne a retrait pour resoudre le sac a dos
+ * on commence avec tous les objets puis on retire les moins interessants jusqu'a respecter les budgets
+ * puis on applique la methode gloutonne a ajout
+ */
 
 public class GloutonRetraitSolver{
 
-/** methode gloutonne a retrait
-* @param sac le sac a dos
-* @param compRetrait le critere d'ordre pour le retrait (les moins interessants en premier)
-* @param compAjout le critere d'ordre pour l'ajout final (les plus interessants en premier)
-*/
+/** 
+ * methode gloutonne a retrait avec 2 comparateurs distincts
+ * @param sac le sac a dos qu'on veut resoudre
+ * @param compRetrait le critere d'ordre pour le retrait (les moins interessants en premier)
+ * @param compAjout le critere d'ordre pour l'ajout final (les plus interessants en premier)
+ * @return la liste des objets selectionnés pour la solution
+ */
 	
 	public static List<Objet> methodeGloutonneRetrait(SacADos sac, Comparator<Objet> compRetrait, Comparator<Objet> compAjout) {
 		
@@ -70,8 +77,9 @@ public class GloutonRetraitSolver{
 	/** 
 	 * version simplifiee qui utilise le meme comparateur pour le retrait et l'ajout
 	 * garde pour la compatibilite avec l'ancien code (mais c'est pas l'ideal)
-	 * @param sac le sac a dos
+	 * @param sac le sac a dos qu'on veut resoudre
 	 * @param comp le critere d'ordre (utilise pour les deux phases)
+	 * @return la liste des objets selectionnés pour la solution
 	 */
 	public static List<Objet> methodeGloutonneRetrait(SacADos sac, Comparator<Objet> comp) {
 		//on utilise le premier critere d'ajout par defaut pour la phase d'ajout

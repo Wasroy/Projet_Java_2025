@@ -4,13 +4,16 @@ import java.util.Comparator;
 import java.lang.Exception;
 
 /** critere d'ordre methode gloutonne a retrait
-* @author William Miserolle Nathalie Habib 
 */
 
 public class OrdreObjetsRetrait implements Comparator<Objet> {
 	
 	private final SacADos sac;
 	
+	/**
+	 * constructeur qui prend le sac pour pouvoir determiner la dimension la plus depassee
+	 * @param sac le sac a dos qu'on est en train de resoudre
+	 */
 	public OrdreObjetsRetrait(SacADos sac) {
 		this.sac = sac;
 	}

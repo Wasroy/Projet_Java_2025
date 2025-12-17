@@ -5,16 +5,19 @@ import java.util.Comparator;
 import java.util.List;
 import sacADos.*; //pour trier 
 
-/** methode gloutonne a ajout
-* @author William Miserolle Nathalie Habib
-*/
+/** 
+ * classe qui implemente la methode gloutonne a ajout pour resoudre le sac a dos
+ * on parcourt les objets du plus interessant au moins interessant et on ajoute si possible
+ */
 
 public class GloutonAjoutSolver{
 
-/** methode gloutonne a ajout
-* @param sac le sac a dos
-* @param comp le critere de comparaison (premier ou deuxieme critere d'ordre)
-*/
+/** 
+ * methode gloutonne a ajout : on trie les objets et on les ajoute un par un si le budget le permet
+ * @param sac le sac a dos qu'on veut resoudre
+ * @param comp le critere de comparaison (premier ou deuxieme critere d'ordre)
+ * @return la liste des objets selectionnés pour la solution
+ */
 	
 	public static List<Objet> methodeGloutonneAjout(SacADos sac, Comparator<Objet> comp) {
 		

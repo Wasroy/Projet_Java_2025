@@ -1,6 +1,5 @@
 
 /** Les élus sont un type d'employé qui s'occupent d'évaluer les bénéfices de projets proposés 
- * @author Romane FAYON 
  */
 
 package equipe;

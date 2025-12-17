@@ -1,6 +1,5 @@
 /**
  * Liste des secteurs possibles
- * @author Romane FAYON
  */
 package equipe;
 

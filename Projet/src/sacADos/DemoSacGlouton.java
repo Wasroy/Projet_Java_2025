@@ -6,7 +6,6 @@ import solveur.glouton.GloutonAjoutSolver;
 import solveur.glouton.OrdreObjetsAjoutPremier;
 
 /** demonstration de la methode glouton ajout (ici avec le premier critere d'ajout mais fonctionne aussi pour le deuxieme)
-* @author William Miserolle
 */
 
 

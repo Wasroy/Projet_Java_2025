@@ -6,6 +6,11 @@ import java.util.Collections;
 import sacADos.*;
 import solveur.Solveur;
 
+/**
+ * variante aleatoire du hill climbing pour eviter d'explorer tous les voisins
+ * au lieu de regarder tous les voisins on en pioche aleatoirement un certain nombre
+ * ca permet de gagner en temps de calcul mais on risque de louper le meilleur voisin
+ */
 
 public class HillClimbingAlea implements Solveur {
     

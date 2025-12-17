@@ -3,13 +3,15 @@ import java.util.ArrayList;
 import java.util.List;
 import sacADos.*;
 
-/*
-le but de hillclimbing est de partir d'une solution possible et de regarder si on peut changer 
-certains objets, changer des choses proches de cette solution afin de l'améliorer
-en gros tester les genre 10-100 solutions proche de celle de base et voir s'il y en a une meilleure
-permet en gros d'optimiser potentiellement une solution de base et pour faire ça on va 
-utiliser un tableau de boolean pour faire bouger la selection des objets/projets qu'on va garder
-globalement le tableau facilite la manipulation des objets.*/
+/**
+ * classe qui represente une solution pour le hill climbing
+ * le but de hillclimbing est de partir d'une solution possible et de regarder si on peut changer 
+ * certains objets, changer des choses proches de cette solution afin de l'améliorer
+ * généralement on test les par exemples 10-100 solutions proche de celle de base et voir s'il y en a une meilleure
+ * permet globalement d'optimiser potentiellement une solution de base et pour faire ça on va 
+ * utiliser un tableau de boolean pour faire bouger la selection des objets/projets qu'on va garder
+ *  l'utilisation d'un tableau facilite la manipulation des objets
+ */
 
 
 public class SolutionHillClimbing {

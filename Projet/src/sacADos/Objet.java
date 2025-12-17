@@ -3,7 +3,6 @@ package sacADos;
 /**
  *classe qui represente un objet du probleme du sac a dos multidimensionnel
  * Un objet a une utilite (ce qu'on cherche a maximiser) et plusieurs couts (contraintes)
- * @author Nathalie Habib
  */
 public class Objet{
 	
