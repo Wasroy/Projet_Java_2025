@@ -4,7 +4,7 @@
 
 ## Groupe
 
-- **Romane Fayon** – Simulation de l'équipe municipale
+- **Romane Fayon** – Simulation de l'équipe municipale, génération d'instance, traitement des fichiers et une partie du menu
 - **Nathalie Habib** – Modélisation du sac à dos multidimensionnel et critères d'ordre ajout
 - **William Miserolle** – Méthode gloutonne à retrait, Hill Climbing et Main
 
