@@ -1,224 +1,259 @@
 package app;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
+import equipe.*;
 import sacADos.*;
 import solveur.glouton.*;
 import solveur.hill_climbing.*;
+import pont.*;
 
 /**
  * Classe principale avec menus pour tester les différents solveurs
  */
 public class Main {
 	
+	private static SacADos sacCourant = null;	
 	private static Scanner scanner = new Scanner(System.in);
 	
 	public static void main(String[] args) {
-		
 		boolean continuer = true;
-		
 		while (continuer == true) {
-			
-			afficherMenuPrincipal();
+			sacCourant=menuInstance();
+			menuSolveur();
 			int choix = lireChoix();
-			
-			if (choix == 1) {
-
-				menuGloutonAjout();
+			switch (choix) {
+				case 1: menuGloutonAjout();
+					break;
+				case 2 : menuGloutonRetrait();
+					break;
+				case 3 : menuHillClimbing();
+					break;
+				case 4 : continuer = false;
+					break;
+				default : System.out.println("choix non valide veuillez reessayer");
+					break;
 			}
-
-			else if (choix == 2) {
-
-				menuGloutonRetrait();
-			}
-			else if (choix == 3) {
-
-				menuHillClimbing();
-			}
-
-			else if (choix == 4) {
-
-				continuer = false;
-
-			}
-			else {
-
-				System.out.println("choix non valide veuillez reessayer");
-
-			}
-
 		}
-		
 		scanner.close();
 	}
 	
 	/**
-	 *pour afficher le menu principal
+	 *pour afficher le menu qui permet de choisir le solveur
 	 */
-	private static void afficherMenuPrincipal() {
+	private static void menuSolveur() {
 		System.out.println("\n================================");
 		System.out.println("Menu principal");
 		System.out.println("================================");
-		System.out.println("1 - Methode gloutonne a ajout");
-		System.out.println("2 - Methode gloutonne a retrait");
+		System.out.println("1 - Methode gloutonne à ajout");
+		System.out.println("2 - Methode gloutonne à retrait");
 		System.out.println("3 - Hill Climbing");
 		System.out.println("4 - Quitter");
 		System.out.print("Votre choix : ");
 	}
 	
 	/**
+	 * pour afficher le menu qui permet de choisir comment on génère le sac à dos 
+	 * @return le sac à dos créer selon la méthode choisie 
+	 */
+	private static SacADos menuInstance() {
+	    System.out.println("\n---- Choix de l'instance du probleme ----");
+	    System.out.println("1 - Generer une instance aleatoire");
+	    System.out.println("2 - Charger une instance depuis un fichier");
+	    System.out.println("3 - Generer depuis les projets municipaux");
+	    System.out.println("4 - Sac a dos manuel");
+	    System.out.println("0 - Retour");
+	    System.out.print("Votre choix : ");
+	    int choix = lireChoix();
+	    switch (choix) {
+	        case 1:
+	            return SacADosAleatoire();
+		case 2:
+	            return SacADosFichier();
+	        case 3:
+	            return SacADosProjets();
+	        case 4:
+	            return SacADosManuel();
+	        case 0:
+	            return sacCourant;
+	        default:
+	            System.out.println("Choix invalide");
+	            return sacCourant;
+	    }
+	}
+	
+	private static SacADos SacADosAleatoire() {
+		List<Objet> objets = new ArrayList<>();
+	    Random r = new Random();
+	    int dimension = r.nextInt(5);
+	    int nbObjets = r.nextInt(5);
+	    int utiliteMax = 20;
+	    int coutMax = 10; 
+	    // génération des objets
+	    for (int i = 0; i < nbObjets; i++) {
+	        int utilite = 1 + r.nextInt(utiliteMax);
+	        int[] couts = new int[dimension];
+	        for (int d = 0; d < dimension; d++) {
+	            couts[d] = 1 + r.nextInt(coutMax);
+	        }
+	        objets.add(new Objet(utilite, couts));
+	    }
+	    // génération des budgets
+	    int[] budgets = new int[dimension];
+	    for (int d = 0; d < dimension; d++) {
+	        budgets[d] = (nbObjets * coutMax) / 2; //pour que le budget permete de séléctionner une partie des objets mais pas tous sinon cas trivial
+	    }
+	    SacADos sac = new SacADos(dimension, budgets, objets);
+	    System.out.println("\nVoici le Sac a dos genere aleatoirement :");
+	    sac.afficherSacADos();
+	    return sac;
+	}
+	
+	private static SacADos SacADosFichier() {
+		System.out.print("Entrez le chemin du fichier .dat : ");
+		String chemin = scanner.nextLine();
+		SacADos sac = VersSacADos.creerSacADosDepuisFichier(chemin);
+	    if (sac != null) {
+	        System.out.println("\nSac a dos charge depuis le fichier :");
+	        sac.afficherSacADos();
+	    }
+	    return sac;
+	}
+	
+	private static SacADos SacADosProjets() {
+	    // Création
+		System.out.print("Combien de projets voulez vous: ");
+		String n = scanner.nextLine();           // lit la ligne
+		int nbProjets = Integer.parseInt(n);     // convertit la String en int
+		EquipeMunicipale equipeMun = new EquipeMunicipale();
+		equipeMun.Cycle(nbProjets);
+	    List<Projet> projetsComplets = equipeMun.getProjetsComplets();
+	    if (projetsComplets == null || projetsComplets.isEmpty()) {
+	        System.out.println("Aucun projet municipal n'a ete genere");
+	        return null;
+	    }
+	    //Demander les budgets
+	    int[] budgets = new int[3];
+	    System.out.println("Entrez les budgets municipaux :");
+	    System.out.print("Budget ECONOMIE : ");
+	    budgets[0] = lireChoix();
+	    System.out.print("Budget SOCIAL : ");
+	    budgets[1] = lireChoix();
+	    System.out.print("Budget ENVIRONNEMENT : ");
+	    budgets[2] = lireChoix();
+	    //Transformation en SacADos
+	    VersSacADos convertisseur = new VersSacADos();
+	    SacADos sac = convertisseur.creerSADProjet(
+	        projetsComplets.toArray(new Projet[0]),
+	        budgets
+	    );
+	    System.out.println("\nSac a dos cree a partir des projets municipaux :");
+	    sac.afficherSacADos();
+	    return sac;
+	}
+	
+	/**
 	 *menu pour la methode gloutonne a ajout
 	 */
 	private static void menuGloutonAjout() {
-		
-		SacADos sac = creerSacADos();
-		
+		SacADos sac = sacCourant;
 		if (sac == null) {
 			return; //on sort si l'utilisateur a annulé
-
 		}
-		
 		System.out.println("\n--- Methode gloutonne a ajout ---");
 		System.out.println("Choisissez le critere d'ordre :");
-
 		System.out.println("1 - Premier critere (utilite/cout total)");
 		System.out.println("2 - Deuxieme critere (utilite/cout max)");
-
 		System.out.print("Votre choix : ");
-		
 		int choixOrdre = lireChoix();
-		
 		List<Objet> resultat;
 		
-		if (choixOrdre == 1) {
-			resultat = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutPremier());
-
-			System.out.println("\nResultat avec premier critere :");
-		}
-		else if (choixOrdre == 2) {
-			resultat = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutDeuxieme());
-
-			System.out.println("\nResultat avec deuxieme critere :");
-
-		}
-        //gerer les erreurs de choix
-		else {
-
-			System.out.println("Choix invalide, retour au menu");
-
-			return;
-		}
-		
-		afficherResultat(resultat);
-		
+		switch (choixOrdre) {
+			case 1: 
+				resultat = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutPremier());
+				System.out.println("\nResultat avec premier critere :");
+				afficherResultat(resultat);
+			case 2 : 
+				resultat = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutDeuxieme());
+				System.out.println("\nResultat avec deuxieme critere :");
+				afficherResultat(resultat);
+			default : System.out.println("Choix invalide, retour au menu");
+			}		
 	}
 	
 	/**
 	 *menu pour la methode gloutonne a retrait
 	 */
 	private static void menuGloutonRetrait() {
-		
-		SacADos sac = creerSacADos();
-		
+		SacADos sac = sacCourant;
 		if (sac == null) {
 			return;
 		}
-		
 		System.out.println("\n--------Methode gloutonne a retrait ------");
 		System.out.println("Critère de retrait");
-		
-		List<Objet> resultat = GloutonRetraitSolver.methodeGloutonneRetrait(sac, new OrdreObjetsRetrait());
-		
+		List<Objet> resultat = GloutonRetraitSolver.methodeGloutonneRetrait(sac, new OrdreObjetsRetrait(sac));
 		System.out.println("\nResultat avec methode retrait :");
 		afficherResultat(resultat);
-		
 	}
 	
 	/**
 	 *menu pour la méthode du Hill Climbing
 	 */
 	private static void menuHillClimbing() {
-		
-		SacADos sac = creerSacADos();
-		
+		SacADos sac = sacCourant;
 		if (sac == null) {
 			return;
 		}
-		
 		System.out.println("\n----Hill Climbing-------");
 		System.out.println("Choisissez la variante :");
 		System.out.println("1 - Hill Climbing normale (tous les voisins)");
-
 		System.out.println("2 - Hill Climbing aleatoire (nombre limite de voisins)");
-
 		System.out.print("Votre choix : ");
-		
 		int choixHC = lireChoix();
-		
 		List<Objet> resultat;
-		
 		if (choixHC == 1) {
-
 			HillClimbingNormale hcNormale = new HillClimbingNormale();
 			resultat = hcNormale.resoudre(sac);
-
 			System.out.println("\nResultat avec Hill Climbing normale :");
-
 		}
-
-
 		else if (choixHC == 2) {
-
 			System.out.print("Nombre de voisins aleatoires a considerer : ");
 			int nbVoisins = lireChoix();
-			
 			if (nbVoisins <= 0) {
 				System.out.println("Nombre invalide, retour au menu");
 				return;
 			}
-			
 			HillClimbingAlea hcAlea = new HillClimbingAlea(nbVoisins);
 			resultat = hcAlea.resoudre(sac);
 			System.out.println("\nResultat avec Hill Climbing aleatoire :");
-
 		}
-
 		else {
 			System.out.println("Choix invalide, retour au menu");
 			return;
 		}
-		
 		afficherResultat(resultat);
-		
 	}
 	
 	/**
 	 * créer un sac a dos en demandant a l'utilisateur ce qu'il souhaite faire
 	 * @return le sac a dos cree ou "null" si annulé
 	 */
-	private static SacADos creerSacADos() {
-		
+	
+	private static SacADos SacADosManuel() {
 		System.out.println("\n----Creation du sac a dos------");
 		System.out.println("Choisissez :");
-
 		System.out.println("1 - Sac a dos par defaut (pour tester rapidement)");
-
 		System.out.println("2 - Sac a dos personnalise");
-
 		System.out.print("Votre choix : ");
 		int choix = lireChoix();
-		
 		if (choix == 1) {
-
 			return creerSacDefaut();
 		}
 		else if (choix == 2) {
-
 			return creerSacPersonnalise();
-
 		}
 		else {
-
 			System.out.println("Choix invalide");
 			return null;
 		}
@@ -229,33 +264,27 @@ public class Main {
 	 * @return le sac a dos
 	 */
 	private static SacADos creerSacDefaut() {
-
         //pour stocker les objs
         List<Objet> objets = new ArrayList<>();
-		
 		//on cree des objets pour tester
 		Objet o1 = new Objet(12, new int[]{3, 5});
 		Objet o2 = new Objet(7, new int[]{2, 4});
 		Objet o3 = new Objet(10, new int[]{4, 6});
 		Objet o4 = new Objet(15, new int[]{5, 7});
 		Objet o5 = new Objet(10, new int[]{3, 5});
-	
 		objets.add(o1);
 		objets.add(o2);
 		objets.add(o3);
 		objets.add(o4);
 		objets.add(o5);
-		
 		int[] budgets = {10, 12};
-
 		SacADos sac = new SacADos(2, budgets, objets);
-		
 		System.out.println("\nVoici le Sac a dos de base :");
 		sac.afficherSacADos();
-		
 		return sac;
 	}
 	
+
 	/**
 	 *cree un sac a dos personnalise en demandant a l'utilisateur
 	 * @return le sac a dos ou null si erreur
@@ -343,56 +372,38 @@ public class Main {
 	 * @param resultat c'est la liste des objets selectionnes
 	 */
 	private static void afficherResultat(List<Objet> resultat) {
-		
 		if (resultat == null || resultat.isEmpty() == true) {
-
 			System.out.println("aucun objet selectionne");
 			return;
-
 		}
-		
 		System.out.println("nombre d'objets selectionnes : " + resultat.size());
-		
 		int utiliteTotale = 0;
-		
 		for (Objet o : resultat) {
 			utiliteTotale = utiliteTotale + o.getUtilite();
 		}
-		
 		System.out.println("Utilite totale : " + utiliteTotale);
-
 		System.out.println("\n Voici les details des objets selectionnes :");
-		
 		for (Objet o : resultat) {
-
 			o.afficherObjet();
 			System.out.println("-----");
-
 		}
-
 	}
 
-	
 	/**
 	 *pour lire un choix entier depuis l'entree standard on créer une méthode 
      *car on va bcp l'utiliser pour bien intéragir avec l'utilisateur et ça évitera de refaire a chaque fois le scanner
 	 * @return l'entier lu
 	 */
 	private static int lireChoix() {
-		
 		//on verif qu'il y a bien un entier a lire
 		while (scanner.hasNextInt() == false) {
 			String ligne = scanner.next(); //on lit ce qui n'est pas un int pour pas bloquer
 			System.out.println("Veuillez entrer un nombre entier valide");
 			System.out.print("Votre choix : ");
 		}
-		
 		int choix = scanner.nextInt();
 		scanner.nextLine(); //on vide le buffer pour la prochaine lecture
-		
 		return choix;
-        
 	}
-	
 }
 
