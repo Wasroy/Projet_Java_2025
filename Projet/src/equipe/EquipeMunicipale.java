@@ -24,6 +24,7 @@ public class EquipeMunicipale {
         this.experts = experts;
     }
     
+    
     /**
      * setter qui permet d'attribuer un élu à l'équipe municipale
      * @param elu est l'élu en question
@@ -38,10 +39,22 @@ public class EquipeMunicipale {
      * @param soc est l'évaluateur du secteur social
      * @param env est l'évaluateur du secteur environnemental 
      */
-    public void setEvaluateurs(Evaluateur eco, Evaluateur soc, Evaluateur env) {
-        this.evaluEco = eco;
-        this.evaluSoc = soc;
-        this.evaluEnv = env;
+    public void setEvaluateurs(Evaluateur e1, Evaluateur e2, Evaluateur e3) {
+        for (Evaluateur e : new Evaluateur[]{e1, e2, e3}) {
+            switch (e.getSpecialisation()) {
+                case ECONOMIE: 
+                		evaluEco = e;
+                		break;
+                case SOCIAL: 
+                		evaluSoc = e;
+                		break;
+                case ENVIRONNEMENT: 
+                		evaluEnv = e;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Évaluateur avec spécialité inconnue : " + e.getSpecialisation());
+            }
+        }
     }
     /**
      * getter qui permet de renvoyer la liste des projets finalisés i.e qui ont été évalués
@@ -57,8 +70,12 @@ public class EquipeMunicipale {
      * étape 2 : pour chaque projet les évaluateurs et élu attribuent les valeurs (coûts et bénéfice)
      * cette méthode met à jour la liste des projets finalisés qui peuvent être soumis au vote 
      */
-    public void Cycle() { 
-    	
+    public void Cycle(int nbProjets) { 
+	    List<Expert> experts=Fabrique.creerExperts(nbProjets);
+	    this.setExperts(experts);
+	    Evaluateur[] evaluateurs = Fabrique.creerEvaluateurs();
+	    this.setEvaluateurs(evaluateurs[0], evaluateurs[1], evaluateurs[2]);
+	    this.setElu(new Elu(null, null, 45));
     	// 1. les experts proposent des projets
         for (Expert e : experts) {         //j'ai choisi un parcours for each car je n'ai pas besoin de modifier ma liste pendant le parcours 
         	 Projet p=e.proposerProjet(); 
