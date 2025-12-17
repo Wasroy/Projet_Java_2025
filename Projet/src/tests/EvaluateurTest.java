@@ -10,7 +10,8 @@ public class EvaluateurTest {
 
     @BeforeEach
     public void initEvaluateur() {
-        EvaluateurUnderTest = new Evaluateur(null, null, 0, null);
+        //on met une vraie specialisation sinon ca plante car le constructeur verifie que c'est pas null
+        EvaluateurUnderTest = new Evaluateur("Dupont", "Jean", 35, Specialisation.ECONOMIE);
     }
 
     @AfterEach
@@ -22,7 +23,8 @@ public class EvaluateurTest {
     public void testEvaluerCout() {
         Projet projet = new Projet("Projet Test", "Description test", Secteur.SPORT, 0);
         EvaluateurUnderTest.evaluerCout(projet);
-        int cout = projet.getCout(EvaluateurUnderTest.Specialite); //utilisation du getter au lieu d'acceder directement
+        //on utilise le getter pour recuperer la specialisation car Specialite est private
+        int cout = projet.getCout(EvaluateurUnderTest.getSpecialisation());
         org.junit.Assert.assertTrue("Le coût évalué doit être entre 0 et 500000", cout >= 0 && cout <= 500000);
     }
 

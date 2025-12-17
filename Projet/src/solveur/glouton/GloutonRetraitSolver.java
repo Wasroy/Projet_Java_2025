@@ -6,24 +6,22 @@ import java.util.Comparator;
 import java.util.Collections;
 import java.util.Iterator; // va etre utile pour supprimer un element pdnt qu'on parcourt la liste
 
-/** methode gloutonne a retrait
-* @author William Miserolle
-*/
 
 public class GloutonRetraitSolver{
 
 /** methode gloutonne a retrait
 * @param sac le sac a dos
-* @param comp le critere d'ordre retrait
+* @param compRetrait le critere d'ordre pour le retrait (les moins interessants en premier)
+* @param compAjout le critere d'ordre pour l'ajout final (les plus interessants en premier)
 */
 	
-	public static List<Objet> methodeGloutonneRetrait(SacADos sac, Comparator<Objet> comp) {
+	public static List<Objet> methodeGloutonneRetrait(SacADos sac, Comparator<Objet> compRetrait, Comparator<Objet> compAjout) {
 		
 		//Init clonage par secu
 		List<Objet> listedesobjets = new ArrayList<>(sac.getObjets()); //par securite on recup clone les objets
 		int[] budgetsdusac = sac.getBudgets().clone(); //idem on clone les budgets
 		
-		Collections.sort(listedesobjets, comp);
+		Collections.sort(listedesobjets, compRetrait); //on trie par ordre de retrait (les moins interessants en premier)
 
 		//par soucis d'optimisation on va calculer en avance toutes les sommes pour gagner en complexité (la manière de base serait de recalculer tout a chaque objet)
 		int[] sommes = new int[budgetsdusac.length];
@@ -65,7 +63,19 @@ public class GloutonRetraitSolver{
 		}
 
 		 SacADos sacFinal = new SacADos(sac.getDimension(), budgetsdusac, listedesobjets);
-		 return GloutonAjoutSolver.methodeGloutonneAjout(sacFinal, comp);
+		 //on applique la methode gloutonne a ajout avec le comparateur d'ajout (pas celui de retrait !)
+		 return GloutonAjoutSolver.methodeGloutonneAjout(sacFinal, compAjout);
+	}
+	
+	/** 
+	 * version simplifiee qui utilise le meme comparateur pour le retrait et l'ajout
+	 * garde pour la compatibilite avec l'ancien code (mais c'est pas l'ideal)
+	 * @param sac le sac a dos
+	 * @param comp le critere d'ordre (utilise pour les deux phases)
+	 */
+	public static List<Objet> methodeGloutonneRetrait(SacADos sac, Comparator<Objet> comp) {
+		//on utilise le premier critere d'ajout par defaut pour la phase d'ajout
+		return methodeGloutonneRetrait(sac, comp, new OrdreObjetsAjoutPremier());
 	}
 
 	

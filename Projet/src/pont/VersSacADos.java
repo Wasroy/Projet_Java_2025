@@ -166,26 +166,40 @@ public class VersSacADos {
      * @throws IOException 
      */
     public static SacADos ficToSac(MKP instance) throws IOException{ 
-        int n = instance.n; 
-        int k = instance.k;
+        int n = instance.getn();  //on utilise les getters pour respecter l'encapsulation RIGOUREUSE!!
+        int k = instance.getk();
         if (n <= 0 || k <= 0) {
             throw new IOException("Paramètres invalides : n et k doivent être strictement positifs.");
         }
         List<Objet> objets = new LinkedList<>(); //liste des objets du sac à dos 
         //maintenant je veux créer tous les objets qui iront dans le sac à dos
         for (int i = 0; i < n; i++) {
+
             int[] couts = new int[k]; //tableau de taille nb de budgets qui est remplie dans la boucle suivante
+
             for (int l = 0; l < k; l++) { //pour chaque objet
-                couts[l] = instance.contraintes[l][i]; //on remplie le tableau avec une boucle pour avoir contraintes sur chacun des k dimensions
+
+                couts[l] = instance.getContraintes()[l][i]; //on remplie le tableau avec une boucle pour avoir contraintes sur chacun des k dimensions
+
             }
-            int utilite = instance.utilites[i]; //on a direct l'utilité
+
+            int utilite = instance.getUtilites()[i]; //on a direct l'utilité
+
             Objet o = new Objet(utilite, couts); // on crée l'objet qui ira dans le sac
+
             objets.add(o); //on ajoute l'objet au sac
+
         }
+
         int dimension = k; 
-        int[] budgets = instance.budgets; //on a direct les budgets
+
+        int[] budgets = instance.getBudgets(); //on a direct les budgets
+
         SacADos s = new SacADos(dimension, budgets, objets); //on crée notre sac à dos 
+
         return s;
+
+        
     }
      
     

@@ -7,19 +7,19 @@ package pont;
 import java.util.Arrays;
 
 public class MKP {
-    int n, k, opt; 
-    int[] utilites;
-    int[][] contraintes; /**matrice de contraintes*/
-    int[] budgets; /**tableau des budgts à respecter*/
+    private int n, k, opt;  //on met private pour l'encapsulation
+    private int[] utilites;
+    private int[][] contraintes; /**matrice de contraintes*/
+    private int[] budgets; /**tableau des budgts à respecter*/
     
     /**
      * Constructeur de MPK
-     * @param n est le nombre d'objets
-     * @param k est le nombre de budgets
-     * @param o est la valeur optimale de la solution (0 si inconnue)
-     * @param u est un tableau qui avec l'utilité de chaque objet
-     * @param c est une matrice avec les contraintes de tous les objets
-     * @param b est un tableau avec tous les budgets à respecter 
+     * @param n le nombre d'objets
+     * @param k le nombre de budgets
+     * @param o la valeur optimale de la solution (0 si inconnue)
+     * @param u tableau qui avec l'utilité de chaque objet
+     * @param c une matrice avec les contraintes de tous les objets
+     * @param b un tableau avec tous les budgets à respecter 
      */
     public MKP(int n, int k, int o, int[] u, int[][] c, int[] b) {
         this.n = n;
@@ -59,6 +59,22 @@ public class MKP {
      */
     public int getopt() {
 		return this.opt;
+    }
+    
+    /**
+     * getter qui permet d'accéder aux utilites des objets
+     * @return le tableau des utilites
+     */
+    public int[] getUtilites() {
+    	return this.utilites;
+    }
+    
+    /**
+     * getter qui permet d'accéder à la matrice des contraintes
+     * @return la matrice des contraintes (k lignes, n colonnes)
+     */
+    public int[][] getContraintes() {
+    	return this.contraintes;
     }
     
     /**

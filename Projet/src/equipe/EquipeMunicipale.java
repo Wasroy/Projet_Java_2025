@@ -65,10 +65,11 @@ public class EquipeMunicipale {
     }
 
     /**
-     * simule un cycle dans l'équipe municipale
+     * simule un cycle dans l'équipe municipale en creant automatiquement les experts et evaluateurs
      * étape 1 : les experts proposent des projets
      * étape 2 : pour chaque projet les évaluateurs et élu attribuent les valeurs (coûts et bénéfice)
      * cette méthode met à jour la liste des projets finalisés qui peuvent être soumis au vote 
+     * @param nbProjets le nombre de projets a generer (= nombre d'experts crees)
      */
     public void Cycle(int nbProjets) { 
 	    List<Expert> experts=Fabrique.creerExperts(nbProjets);
@@ -83,6 +84,41 @@ public class EquipeMunicipale {
         }
         
      // 2. pour chaque projet les évaluateurs et élu attribuent les valeurs
+    	for (Projet p : projets) {
+    		elu.EvaluerBenefice(p);
+    		evaluEco.evaluerCout(p);
+    		evaluSoc.evaluerCout(p);
+    		evaluEnv.evaluerCout(p);
+    	    projetsComplets.add(p);
+    	}
+
+    	projets.clear(); //on remet la liste vide pour être prêt pour le prochain cycle
+    }
+    
+    /**
+     * simule un cycle dans l'équipe municipale en utilisant les experts/evaluateurs/elu deja setups
+     * utile pour les tests ou quand on veut controler precisement l'equipe
+     * si les experts/evaluateurs/elu ne sont pas setups ca va planter donc faut les setup avant d'appeler cette methode
+     */
+    public void Cycle() {
+    	//on verif que l'equipe est bien configuree sinon on previent
+    	if (experts == null || experts.isEmpty()) {
+    		throw new IllegalStateException("Il faut d'abord setter les experts avant d'appeler Cycle()");
+    	}
+    	if (elu == null) {
+    		throw new IllegalStateException("Il faut d'abord setter l'elu avant d'appeler Cycle()");
+    	}
+    	if (evaluEco == null || evaluSoc == null || evaluEnv == null) {
+    		throw new IllegalStateException("Il faut d'abord setter les 3 evaluateurs avant d'appeler Cycle()");
+    	}
+    	
+    	// 1. les experts proposent des projets
+        for (Expert e : experts) {
+        	 Projet p = e.proposerProjet(); 
+        	 projets.add(p);
+        }
+        
+        // 2. pour chaque projet les évaluateurs et élu attribuent les valeurs
     	for (Projet p : projets) {
     		elu.EvaluerBenefice(p);
     		evaluEco.evaluerCout(p);

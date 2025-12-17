@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Collections;
 import sacADos.*;
+import solveur.Solveur;
 
 
-public class HillClimbingAlea {
+public class HillClimbingAlea implements Solveur {
     
     private Random random;
     private int nombreVoisins; //nombre de voisins qu'on va considerer a chaque iteration

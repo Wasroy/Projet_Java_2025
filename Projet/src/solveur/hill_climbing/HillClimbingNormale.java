@@ -2,9 +2,10 @@ package solveur.hill_climbing;
 import java.util.ArrayList;
 import java.util.List;
 import sacADos.*;
+import solveur.Solveur;
 
 
-public class HillClimbingNormale {
+public class HillClimbingNormale implements Solveur {
 
     /**
      * méthode pour résoudre le probème du sac à dos grâce à l'algo hill climbing
