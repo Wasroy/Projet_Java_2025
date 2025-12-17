@@ -187,6 +187,22 @@ public class VersSacADos {
         SacADos s = new SacADos(dimension, budgets, objets); //on crée notre sac à dos 
         return s;
     }
+     
+    
+    public static SacADos creerSacADosDepuisFichier(String cheminFichier) {
+        try {
+            MKP instance = traitementFic(cheminFichier);
+            if (instance == null) {
+                System.out.println("Erreur : instance MKP nulle");
+                return null;
+            }
+            SacADos sac = ficToSac(instance);
+            return sac;
+        } catch (IOException e) {
+            System.out.println("Erreur lors de la lecture du fichier : " + e.getMessage());
+            return null;
+        }
+    }
     
     public static void main(String args[]){
         String nomFic="C:/Users/utilisateur/OneDrive - Université Paris Sciences et Lettres/Documents/GitHub/gk/gk01.dat";
