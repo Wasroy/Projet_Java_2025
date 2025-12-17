@@ -1,7 +1,7 @@
 package tests;
-import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,8 +23,8 @@ public class HillClimbingNormaleTest {
         objets.add(o2);
         objets.add(o3);
 
-        // Sac de capacité 5
-        sac = new SacADos(5, new int[] {20,30,5}, objets);
+        //ici on est en dimension 2 car les objets ont 2 couts
+        sac = new SacADos(2, new int[] {20,30}, objets);
 	}
 	
 	@AfterEach
@@ -37,25 +37,25 @@ public class HillClimbingNormaleTest {
      */
     @Test
     void testResoudreRetourNonNull() {
-        List<Objet> solution = solveur.resoudre(sac);
-        assertNotNull(solution, "La solution ne doit pas être null");
+        List<Objet> solution = hcn.resoudre(sac);
+        assertNotNull(solution);
     }
     
     @Test
     void testSolutionValide() {
-        List<Objet> solution = solveur.resoudre(sac);
+        List<Objet> solution = hcn.resoudre(sac);
         int[] budgets = sac.getBudgets();
         int[] coutTotal = new int[budgets.length];
         // Somme des coûts de chaque objet dans chaque dimension
         for (Objet o : solution) {
-            int[] coutsObjet = o.getCout(); // retourne int[]
+            int[] coutsObjet = o.getCouts();
             for (int i = 0; i < budgets.length; i++) {
                 coutTotal[i] += coutsObjet[i];
             }
         }
         // on vérifie que chaque dimension respecte le budget
         for (int i = 0; i < budgets.length; i++) {
-            assertTrue(coutTotal[i] <= budgets[i], "La solution dépasse le budget dans la dimension " + i);
+            assertTrue(coutTotal[i] <= budgets[i]);
         }
     }
     
@@ -64,19 +64,19 @@ public class HillClimbingNormaleTest {
      */
     @Test
     void testAmeliorationParRapportSolutionVide() {
-        List<Objet> solution = solveur.resoudre(sac);
+        List<Objet> solution = hcn.resoudre(sac);
         int utiliteSolution = 0;
         for (Objet o : solution) {
             utiliteSolution += o.getUtilite();
         }
-        assertTrue(utiliteSolution > 0, "La solution devrait avoir une utilité strictement positive");
+        assertTrue(utiliteSolution > 0);
     }
     
     @Test
     void testObjetsAppartiennentAuSac() {
-        List<Objet> solution = solveur.resoudre(sac);
+        List<Objet> solution = hcn.resoudre(sac);
         for (Objet o : solution) {
-            assertTrue(sac.getObjets().contains(o), "La solution contient un objet qui n'appartient pas au sac");
+            assertTrue(sac.getObjets().contains(o));
         }
     }
     
@@ -86,10 +86,11 @@ public class HillClimbingNormaleTest {
     @Test
     void testSacTropPetit() {
         Objet lourd = new Objet(10, new int[]{100,100});
-        List<Objet> objets = List.of(lourd);
-        SacADos sacMinuscule = new SacADos(5,new int[] {20,30,5}, objets);
-        List<Objet> solution = solveur.resoudre(sacMinuscule);
-        assertTrue(solution.isEmpty(), "Aucun objet ne devrait être sélectionné");
+        List<Objet> objets = new ArrayList<>();
+        objets.add(lourd);
+        SacADos sacMinuscule = new SacADos(2,new int[] {1,1}, objets);
+        List<Objet> solution = hcn.resoudre(sacMinuscule);
+        assertTrue(solution.isEmpty());
     }
 
 }

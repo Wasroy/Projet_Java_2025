@@ -20,6 +20,7 @@ public class OrdreObjetsAjoutDeuxieme implements Comparator<Objet> {
 			if (o1.getCouts()[i] > max){
 				
 				max = o1.getCouts()[i];
+			}
 		}
 		return max;
 	}

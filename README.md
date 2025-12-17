@@ -23,8 +23,6 @@ Ce projet comprend trois parties principales :
 ```
 Projet/
 └── src/
-    ├── module-info.java
-    │
     ├── app/
     │   ├── App.java
     │   └── Main.java              # Point d'entrée avec menus console
@@ -124,6 +122,7 @@ Les solveurs Hill Climbing implémentent l'interface `Solveur` qui définit la m
 - `EvaluateurTest` : Test de l'évaluation des coûts
 - `ExpertTest` : Test de la proposition de projets
 - `EquipeMunicipaleTest` : Test du cycle complet
+- `HillClimbingNormaleTest` : Tests basiques du solveur hill climbing
 - `VersSacADosTest` : Test des conversions et lecture de fichiers
 
 ## Exécution
@@ -131,8 +130,8 @@ Les solveurs Hill Climbing implémentent l'interface `Solveur` qui définit la m
 ### Application principale (menus console)
 
 ```bash
-cd Projet/bin
-java app.Main
+cd Projet
+java -cp bin app.Main
 ```
 
 Le programme propose :
@@ -146,14 +145,23 @@ Depuis la racine du projet :
 
 ```bash
 cd Projet
-javac -d bin src/**/*.java
+mkdir -p bin
+javac -d bin $(find src -name "*.java")
+```
+
+Sous PowerShell (Windows) :
+
+```powershell
+cd Projet
+mkdir bin -ea 0
+javac -d bin (Get-ChildItem -Recurse -Filter *.java src | ForEach-Object FullName)
 ```
 
 ### Tests JUnit
 
 ```bash
 cd Projet
-java -jar lib/junit-platform-console-standalone-1.10.2.jar --class-path bin --scan-class-path
+java -jar junit-platform-console-standalone-1.10.2.jar --class-path bin --scan-class-path
 ```
 
 ## Auteurs

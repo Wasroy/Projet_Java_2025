@@ -3,6 +3,7 @@ package tests;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import equipe.*;
 
 public class EluTest {
@@ -23,7 +24,7 @@ public class EluTest {
     public void testEvaluerBenefice() {
         Projet projet = new Projet("Projet Test", "Description test", Secteur.SPORT, 0);
         int benefice = eluUnderTest.EvaluerBenefice(projet);
-        org.junit.Assert.assertTrue("Le bénéfice évalué doit être >= 0", benefice >= 0);
+        assertTrue(benefice >= 0);
     }
     
 }

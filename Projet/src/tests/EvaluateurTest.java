@@ -3,6 +3,7 @@ package tests;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import equipe.*;
 
 public class EvaluateurTest {
@@ -25,7 +26,7 @@ public class EvaluateurTest {
         EvaluateurUnderTest.evaluerCout(projet);
         //on utilise le getter pour recuperer la specialisation car Specialite est private
         int cout = projet.getCout(EvaluateurUnderTest.getSpecialisation());
-        org.junit.Assert.assertTrue("Le coût évalué doit être entre 0 et 500000", cout >= 0 && cout <= 500000);
+        assertTrue(cout >= 0 && cout <= 500000);
     }
 
 }
