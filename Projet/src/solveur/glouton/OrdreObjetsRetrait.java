@@ -56,17 +56,18 @@ public class OrdreObjetsRetrait implements Comparator<Objet> {
 	
 	@Override
 	public int compare(Objet o1, Objet o2) {
-		try{
-			double f1 = (double) o1.getUtilite() / maxCoutObjetDimension(o1);
+		double f1 = 0;
+		double f2 = 0;
+		
+		int cout1 = maxCoutObjetDimension(o1);
+		int cout2 = maxCoutObjetDimension(o2);
+		
+		//on verifie si le cout est 0 car en java la division double/0 donne Infinity pas une exception
+		if (cout1 != 0){
+			f1 = (double) o1.getUtilite() / cout1;
 		}
-		catch(ArithmeticException e){
-			System.out.println("Division par 0 impossible.");
-		}
-		try{
-			double f2 = (double) o2.getUtilite() / maxCoutObjetDimension(o2);
-		}
-		catch(ArithmeticException e){
-			System.out.println("Division par 0 impossible.");
+		if (cout2 != 0){
+			f2 = (double) o2.getUtilite() / cout2;
 		}
 
 		if (f1 < f2)

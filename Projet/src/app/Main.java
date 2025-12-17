@@ -91,8 +91,8 @@ public class Main {
 	private static SacADos SacADosAleatoire() {
 		List<Objet> objets = new ArrayList<>();
 	    Random r = new Random();
-	    int dimension = r.nextInt(5);
-	    int nbObjets = r.nextInt(5);
+	    int dimension = 1 + r.nextInt(5); //on rajoute +1 car on veut de 1 a 5 sans le 0 pouvant etre genere
+	    int nbObjets = 1 + r.nextInt(5); 
 	    int utiliteMax = 20;
 	    int coutMax = 10; 
 	    // génération des objets
@@ -188,12 +188,16 @@ public class Main {
 				System.out.println("\nResultat avec premier critere :");
 				afficherResultat(resultat);
 				solutionCourante = resultat;
+				break;
 			case 2 : 
 				resultat = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutDeuxieme());
 				System.out.println("\nResultat avec deuxieme critere :");
 				afficherResultat(resultat);
 				solutionCourante = resultat;
-			default : System.out.println("Choix invalide, retour au menu");
+				break;
+			default : 
+				System.out.println("Choix invalide, retour au menu");
+				break;
 			}		
 	}
 	

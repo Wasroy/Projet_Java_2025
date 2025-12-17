@@ -1,0 +1,22 @@
+# JDK installé localement (à supprimer)
+oracleJdk-25/
+
+# Fichiers compilés Java
+*.class
+Projet/bin/
+
+# Dépendances
+Projet/lib/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS
+.DS_Store
+Thumbs.db
+
