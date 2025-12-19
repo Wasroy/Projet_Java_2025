@@ -26,7 +26,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		//on affiche le splash screen au demarrage du programme
+		//on affiche le texte SACADOS screen au demarrage du programme
 		afficherSplashScreen();
 		
 		boolean continuer = true;
@@ -36,37 +36,52 @@ public class Main {
 				System.out.println("\n[!] Aucun sac a dos charge, veuillez en creer un d'abord");
 				continue; //on recommence la boucle si pas de sac
 			}
+
 			afficherMenuPrincipal();
+
 			int choix = lireChoix();
+		
 			switch (choix) {
 				case 1: menuGloutonAjout();
 					break;
+
 				case 2 : menuGloutonRetrait();
 					break;
+
 				case 3 : menuHillClimbing();
 					break;
+
 				case 4 : menuGloutonHillClimbing();
 					break;
 				case 5 : 
+
 					afficherAuRevoir();
+
 					continuer = false;
+
 					break;
+
 				default : System.out.println("[!] choix non valide veuillez reessayer");
+
 					break;
+
 			}
+
 		}
+
+
 		scanner.close();
 	}
 	
 	/**
 	 * affiche l'ecran de demarrage avec le titre du projet en ascii art
-	 * c'est pour faire joli au lancement du programme
+	 * pour faire joli au lancement du programme
 	 */
 	private static void afficherSplashScreen() {
 		effacerConsole();
 		
 		//le titre en ascii art
-		//IMPORTANT: on utilise uniquement de l'ASCII "safe" (pas de caracteres Unicode type ╔═█),
+		//IMPORTANT: on utilise uniquement de l'ASCII qui se rend sur tous les ordis (pas de caracteres type ╔═█ malheuresement),
 		//car selon le terminal (notamment Windows) ils peuvent s'afficher en "???".
 		String[] titre = {
 			"",
@@ -84,7 +99,7 @@ public class Main {
 			""
 		};
 		
-		//on affiche le titre lettre par lettre pour un effet sympa
+		//on affiche le titre lettre par lettre pour faire une animation
 		for (String ligne : titre) {
 			afficherProgressif(ligne, DELAI_COURT);
 			System.out.println();
@@ -92,7 +107,7 @@ public class Main {
 		
 		pause(DELAI_MOYEN);
 		
-		//infos du projet
+		//infos du projet classique 
 		String[] infos = {
 			"    +-------------------------------------------------------------------+",
 			"    |                    Projet Java L3 Info 2025                       |",
@@ -111,7 +126,7 @@ public class Main {
 		
 		pause(DELAI_LONG);
 		
-		//petit message de chargement pour faire pro
+		//petit message de chargement pour faire pro meme si ne sert a rien en realite c quasi instantane
 		System.out.print("\n    Chargement des modules");
 		for (int i = 0; i < 3; i++) {
 			pause(300);
@@ -122,12 +137,13 @@ public class Main {
 		pause(DELAI_MOYEN);
 		
 		System.out.println("    Appuyez sur ENTREE pour continuer...");
+
 		scanner.nextLine();
 	}
 
 	// ==================== PERF / STATS ====================
 	/**
-	 * affichage compatible avec les terminals widnows et linux (vu qu'on sait pas sur quel ordi le prof va tester) : que du ASCII
+	 * affichage compatible avec les terminals widnows et linux (vu qu'on sait pas sur quel ordi le prof va tester) : que du ASCII grandement généré par IA ici
 	 */
 	private static void afficherPerformance(String nomMethode, SacADos sac, List<Objet> resultat, long tempsNano) {
 		System.out.println();
@@ -138,6 +154,7 @@ public class Main {
 		
 		//petites stats sur la solution
 		int nbTotal = 0;
+
 		if (sac != null) nbTotal = sac.getObjets().size();
 		
 		int nbPris = 0;
@@ -161,33 +178,55 @@ public class Main {
 			int[] coutsTotal = new int[budgets.length];
 			
 			if (resultat != null) {
+
 				for (Objet o : resultat) {
+
 					int[] c = o.getCouts();
+
 					for (int d = 0; d < budgets.length; d++) {
+
 						if (c != null && d < c.length) {
+
 							coutsTotal[d] = coutsTotal[d] + c[d];
+
+
 						}
+
+
 					}
+
+
 				}
 			}
 			
 			boolean valide = true;
+
 			for (int d = 0; d < budgets.length; d++) {
+
 				if (coutsTotal[d] > budgets[d]) {
+
 					valide = false;
 					break;
+
 				}
+
 			}
 			
 			System.out.println("    Valide   : " + (valide ? "OUI" : "NON"));
+
 			System.out.println("    Budgets  :");
 			
 			for (int d = 0; d < budgets.length; d++) {
+
 				int budget = budgets[d];
 				int cout = coutsTotal[d];
 				int pct = (budget <= 0) ? 0 : (int) Math.round((100.0 * cout) / budget);
+
 				String barre = faireBarre(budget, cout, 20);
+
 				System.out.println("    - d" + (d+1) + " : " + cout + "/" + budget + "  " + barre + "  " + pct + "%");
+
+
 			}
 		}
 		
