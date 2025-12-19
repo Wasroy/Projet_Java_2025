@@ -1,13 +1,13 @@
 package app;
+import equipe.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import equipe.*;
+import pont.*;
 import sacADos.*;
 import solveur.glouton.*;
 import solveur.hill_climbing.*;
-import pont.*;
 
 /**
  * Classe principale avec menus pour tester les différents solveurs
@@ -65,21 +65,22 @@ public class Main {
 	private static void afficherSplashScreen() {
 		effacerConsole();
 		
-		//le titre en ascii art (fait a la main pour que ca reste simple)
+		//le titre en ascii art
+		//IMPORTANT: on utilise uniquement de l'ASCII "safe" (pas de caracteres Unicode type ╔═█),
+		//car selon le terminal (notamment Windows) ils peuvent s'afficher en "???".
 		String[] titre = {
 			"",
-			"    ╔═══════════════════════════════════════════════════════════════════╗",
-			"    ║                                                                   ║",
-			"    ║   ███████╗ █████╗  ██████╗    █████╗     ██████╗  ██████╗ ███████╗║",
-			"    ║   ██╔════╝██╔══██╗██╔════╝   ██╔══██╗    ██╔══██╗██╔═══██╗██╔════╝║",
-			"    ║   ███████╗███████║██║        ███████║    ██║  ██║██║   ██║███████╗║",
-			"    ║   ╚════██║██╔══██║██║        ██╔══██║    ██║  ██║██║   ██║╚════██║║",
-			"    ║   ███████║██║  ██║╚██████╗   ██║  ██║    ██████╔╝╚██████╔╝███████║║",
-			"    ║   ╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝  ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝║",
-			"    ║                                                                   ║",
-			"    ║            Probleme du Sac a Dos Multidimensionnel                ║",
-			"    ║                                                                   ║",
-			"    ╚═══════════════════════════════════════════════════════════════════╝",
+			"    +-------------------------------------------------------------------+",
+			"    |                                                                   |",
+			"    |   #####    ##    ####      ##       ####     ####   #####         |",
+			"    |  #        #  #  #         #  #      #    #  #    #  #             |",
+			"    |   ####   ###### #        ######     #    #  #    #   ####         |",
+			"    |       #  #    # #        #    #     #    #  #    #       #        |",
+			"    |  #####   #    #  ####    #    #     #####    ####   #####         |",
+			"    |                                                                   |",
+			"    |         Probleme du Sac a Dos Multidimensionnel                   |",
+			"    |                                                                   |",
+			"    +-------------------------------------------------------------------+",
 			""
 		};
 		
@@ -122,6 +123,95 @@ public class Main {
 		
 		System.out.println("    Appuyez sur ENTREE pour continuer...");
 		scanner.nextLine();
+	}
+
+	// ==================== PERF / STATS ====================
+	/**
+	 * affichage compatible avec les terminals widnows et linux (vu qu'on sait pas sur quel ordi le prof va tester) : que du ASCII
+	 */
+	private static void afficherPerformance(String nomMethode, SacADos sac, List<Objet> resultat, long tempsNano) {
+		System.out.println();
+		afficherBoite("PERFORMANCE - " + nomMethode, 55);
+		
+		//temps
+		double tempsMs = tempsNano / 1000000.0;
+		
+		//petites stats sur la solution
+		int nbTotal = 0;
+		if (sac != null) nbTotal = sac.getObjets().size();
+		
+		int nbPris = 0;
+		if (resultat != null) nbPris = resultat.size();
+		
+		//utilite totale
+		int utiliteTotale = 0;
+		if (resultat != null) {
+			for (Objet o : resultat) {
+				utiliteTotale = utiliteTotale + o.getUtilite();
+			}
+		}
+		
+		System.out.println("    Temps    : " + String.format(java.util.Locale.US, "%.2f", tempsMs) + " ms");
+		System.out.println("    Solution : " + nbPris + "/" + nbTotal + " objets");
+		System.out.println("    Utilite  : " + utiliteTotale);
+		
+		//couts + validite
+		if (sac != null) {
+			int[] budgets = sac.getBudgets();
+			int[] coutsTotal = new int[budgets.length];
+			
+			if (resultat != null) {
+				for (Objet o : resultat) {
+					int[] c = o.getCouts();
+					for (int d = 0; d < budgets.length; d++) {
+						if (c != null && d < c.length) {
+							coutsTotal[d] = coutsTotal[d] + c[d];
+						}
+					}
+				}
+			}
+			
+			boolean valide = true;
+			for (int d = 0; d < budgets.length; d++) {
+				if (coutsTotal[d] > budgets[d]) {
+					valide = false;
+					break;
+				}
+			}
+			
+			System.out.println("    Valide   : " + (valide ? "OUI" : "NON"));
+			System.out.println("    Budgets  :");
+			
+			for (int d = 0; d < budgets.length; d++) {
+				int budget = budgets[d];
+				int cout = coutsTotal[d];
+				int pct = (budget <= 0) ? 0 : (int) Math.round((100.0 * cout) / budget);
+				String barre = faireBarre(budget, cout, 20);
+				System.out.println("    - d" + (d+1) + " : " + cout + "/" + budget + "  " + barre + "  " + pct + "%");
+			}
+		}
+		
+		afficherSeparateur("-", 55);
+	}
+
+	//barre ASCII style [#######-----]
+	private static String faireBarre(int budget, int cout, int taille) {
+		if (taille <= 0) taille = 10;
+		int remplissage = 0;
+		if (budget > 0) {
+			remplissage = (int) Math.round((1.0 * cout * taille) / budget);
+		}
+		if (remplissage < 0) remplissage = 0;
+		if (remplissage > taille) remplissage = taille;
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for (int i = 0; i < taille; i++) {
+			if (i < remplissage) sb.append("#");
+			else sb.append("-");
+		}
+		sb.append("]");
+		return sb.toString();
 	}
 	
 	/**
@@ -345,15 +435,21 @@ public class Main {
 			case 1: 
 				System.out.println("\n    [*] Execution avec critere f(o) = u / somme(c)...");
 				afficherBarreProgression();
+				long debut = System.nanoTime();
 				resultat = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutPremier());
+				long fin = System.nanoTime();
 				afficherResultatJoli("Methode Gloutonne Ajout (critere 1)", resultat);
+				afficherPerformance("Glouton Ajout (critere 1)", sac, resultat, fin - debut);
 				solutionCourante = resultat;
 				break;
 			case 2 : 
 				System.out.println("\n    [*] Execution avec critere f(o) = u / max(c)...");
 				afficherBarreProgression();
+				long debut2 = System.nanoTime();
 				resultat = GloutonAjoutSolver.methodeGloutonneAjout(sac, new OrdreObjetsAjoutDeuxieme());
+				long fin2 = System.nanoTime();
 				afficherResultatJoli("Methode Gloutonne Ajout (critere 2)", resultat);
+				afficherPerformance("Glouton Ajout (critere 2)", sac, resultat, fin2 - debut2);
 				solutionCourante = resultat;
 				break;
 			default : 
@@ -387,8 +483,11 @@ public class Main {
 		System.out.println("\n    [*] Execution de la methode gloutonne a retrait...");
 		afficherBarreProgression();
 		
+		long debut = System.nanoTime();
 		List<Objet> resultat = GloutonRetraitSolver.methodeGloutonneRetrait(sac, new OrdreObjetsRetrait(sac));
+		long fin = System.nanoTime();
 		afficherResultatJoli("Methode Gloutonne Retrait", resultat);
+		afficherPerformance("Glouton Retrait", sac, resultat, fin - debut);
 		solutionCourante = resultat;
 	}
 	
@@ -440,8 +539,11 @@ public class Main {
 			afficherBarreProgression();
 			
 			HillClimbingNormale hcNormale = new HillClimbingNormale();
+			long debut = System.nanoTime();
 			resultat = hcNormale.resoudre(sac);
+			long fin = System.nanoTime();
 			afficherResultatJoli("Hill Climbing Classique", resultat);
+			afficherPerformance("Hill Climbing Classique", sac, resultat, fin - debut);
 		}
 		else if (choixHC == 2) {
 			System.out.print("    Nombre de voisins aleatoires a explorer : ");
@@ -456,8 +558,11 @@ public class Main {
 			afficherBarreProgression();
 			
 			HillClimbingAlea hcAlea = new HillClimbingAlea(nbVoisins);
+			long debut2 = System.nanoTime();
 			resultat = hcAlea.resoudre(sac);
+			long fin2 = System.nanoTime();
 			afficherResultatJoli("Hill Climbing Aleatoire (" + nbVoisins + " voisins)", resultat);
+			afficherPerformance("Hill Climbing Aleatoire (" + nbVoisins + ")", sac, resultat, fin2 - debut2);
 		}
 		else {
 			System.out.println("    [!] Choix invalide, retour au menu");
@@ -471,7 +576,7 @@ public class Main {
 	    if (sac == null) return;
 
 	    System.out.println();
-	    afficherBoite("PIPELINE : GLOUTON + HILL CLIMBING", 55);
+	    afficherBoite("GLOUTON + HILL CLIMBING", 55);
 
 	    // phase 1 : glouton
 	    System.out.println("\n    Phase 1 : Methode gloutonne");
@@ -488,16 +593,25 @@ public class Main {
 
 	    switch (choixGlouton) {
 	        case 1:
+	        	long debutG1 = System.nanoTime();
 	            solutionInitiale = GloutonAjoutSolver.methodeGloutonneAjout(
 	                sac, new OrdreObjetsAjoutPremier());
+	            long finG1 = System.nanoTime();
+	            afficherPerformance("Glouton + HC - Glouton Ajout (critere 1)", sac, solutionInitiale, finG1 - debutG1);
 	            break;
 	        case 2:
+	        	long debutG2 = System.nanoTime();
 	            solutionInitiale = GloutonAjoutSolver.methodeGloutonneAjout(
 	                sac, new OrdreObjetsAjoutDeuxieme());
+	            long finG2 = System.nanoTime();
+	            afficherPerformance("Glouton + HC - Glouton Ajout (critere 2)", sac, solutionInitiale, finG2 - debutG2);
 	            break;
 	        case 3:
+	        	long debutG3 = System.nanoTime();
 	            solutionInitiale = GloutonRetraitSolver.methodeGloutonneRetrait(
 	                sac, new OrdreObjetsRetrait(sac));
+	            long finG3 = System.nanoTime();
+	            afficherPerformance("Glouton + HC - Glouton Retrait", sac, solutionInitiale, finG3 - debutG3);
 	            break;
 	        default:
 	            System.out.println("    [!] Choix invalide");
@@ -518,14 +632,20 @@ public class Main {
 	    if (choixHC == 1) {
 	        HillClimbingNormale hc = new HillClimbingNormale();
 	        hc.setSolutionInitiale(solutionInitiale,sac);
+	        long debutHC = System.nanoTime();
 	        solutionFinale = hc.resoudre(sac);
+	        long finHC = System.nanoTime();
+	        afficherPerformance("Glouton + HC - Hill Climbing classique", sac, solutionFinale, finHC - debutHC);
 	    }
 	    else if (choixHC == 2) {
 	        System.out.print("    Nombre de voisins aleatoires : ");
 	        int nbVoisins = lireChoix();
 	        HillClimbingAlea hcAlea = new HillClimbingAlea(nbVoisins);
 	        hcAlea.setSolutionInitiale(solutionInitiale,sac);
+	        long debutHC2 = System.nanoTime();
 	        solutionFinale = hcAlea.resoudre(sac);
+	        long finHC2 = System.nanoTime();
+	        afficherPerformance("Glouton + HC - Hill Climbing aleatoire (" + nbVoisins + ")", sac, solutionFinale, finHC2 - debutHC2);
 	    }
 	    else {
 	        System.out.println("    [!] Choix invalide");
