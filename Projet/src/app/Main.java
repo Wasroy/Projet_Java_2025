@@ -45,7 +45,9 @@ public class Main {
 					break;
 				case 3 : menuHillClimbing();
 					break;
-				case 4 : 
+				case 4 : menuGloutonHillClimbing();
+					break;
+				case 5 : 
 					afficherAuRevoir();
 					continuer = false;
 					break;
@@ -144,7 +146,8 @@ public class Main {
 		System.out.println("    |   [1]  Methode gloutonne a ajout                 |");
 		System.out.println("    |   [2]  Methode gloutonne a retrait               |");
 		System.out.println("    |   [3]  Hill Climbing                             |");
-		System.out.println("    |   [4]  Quitter le programme                      |");
+		System.out.println("    |   [4]  Glouton + Hill Climbing                   |");
+		System.out.println("    |   [5]  Quitter le programme                      |");
 		System.out.println("    |                                                  |");
 		System.out.println("    +--------------------------------------------------+");
 		System.out.print("\n    >>> Votre choix : ");
@@ -278,7 +281,7 @@ public class Main {
 		System.out.println("    [OK] " + projetsComplets.size() + " projet(s) genere(s) !\n");
 		
 		//on affiche les projets generés
-		System.out.println("    Projets proposes par les experts :");
+		System.out.println("    Projets proposés par les experts :");
 		for (Projet p : projetsComplets) {
 			System.out.println("    - " + p.getTitre());
 		}
@@ -462,6 +465,79 @@ public class Main {
 		}
 		solutionCourante = resultat;
 	}
+	
+	private static void menuGloutonHillClimbing() {
+	    SacADos sac = sacCourant;
+	    if (sac == null) return;
+
+	    System.out.println();
+	    afficherBoite("PIPELINE : GLOUTON + HILL CLIMBING", 55);
+
+	    // phase 1 : glouton
+	    System.out.println("\n    Phase 1 : Methode gloutonne");
+	    System.out.println("    Choisissez le glouton initial :");
+	    System.out.println("    [1] Glouton a ajout (critere 1 : u / somme(c))");
+	    System.out.println("    [2] Glouton a ajout (critere 2 : u / max(c))");
+	    System.out.println("    [3] Glouton a retrait");
+	    System.out.print("\n    >>> Votre choix : ");
+
+	    int choixGlouton = lireChoix();
+	    List<Objet> solutionInitiale = null;
+
+	    afficherBarreProgression();
+
+	    switch (choixGlouton) {
+	        case 1:
+	            solutionInitiale = GloutonAjoutSolver.methodeGloutonneAjout(
+	                sac, new OrdreObjetsAjoutPremier());
+	            break;
+	        case 2:
+	            solutionInitiale = GloutonAjoutSolver.methodeGloutonneAjout(
+	                sac, new OrdreObjetsAjoutDeuxieme());
+	            break;
+	        case 3:
+	            solutionInitiale = GloutonRetraitSolver.methodeGloutonneRetrait(
+	                sac, new OrdreObjetsRetrait(sac));
+	            break;
+	        default:
+	            System.out.println("    [!] Choix invalide");
+	            return;
+	    }
+
+	    afficherResultatJoli("Solution initiale (Glouton)", solutionInitiale);
+
+	    // phase 2 : Hill Climbing
+	    System.out.println("\n    Phase 2 : Hill Climbing");
+	    System.out.println("    Choisissez la variante :");
+	    System.out.println("    [1] Hill Climbing classique");
+	    System.out.println("    [2] Hill Climbing aleatoire");
+	    System.out.print("\n    >>> Votre choix : ");
+	    int choixHC = lireChoix();
+	    List<Objet> solutionFinale;
+	    afficherBarreProgression();
+	    if (choixHC == 1) {
+	        HillClimbingNormale hc = new HillClimbingNormale();
+	        hc.setSolutionInitiale(solutionInitiale,sac);
+	        solutionFinale = hc.resoudre(sac);
+	    }
+	    else if (choixHC == 2) {
+	        System.out.print("    Nombre de voisins aleatoires : ");
+	        int nbVoisins = lireChoix();
+	        HillClimbingAlea hcAlea = new HillClimbingAlea(nbVoisins);
+	        hcAlea.setSolutionInitiale(solutionInitiale,sac);
+	        solutionFinale = hcAlea.resoudre(sac);
+	    }
+	    else {
+	        System.out.println("    [!] Choix invalide");
+	        return;
+	    }
+
+	    afficherResultatJoli("Solution finale (Glouton + Hill Climbing)", solutionFinale);
+
+	    // ==================== STOCKAGE ====================
+	    solutionCourante = solutionFinale;
+	}
+
 	
 	/**
 	 * créer un sac a dos en demandant a l'utilisateur ce qu'il souhaite faire
