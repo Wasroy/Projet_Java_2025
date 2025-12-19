@@ -6,7 +6,7 @@ import java.util.*;
 
 public class EquipeMunicipale {
     //gerer le cas si plusieurs experts du même secteur??
-    private List<Expert> experts; /** Liste d'experts : ce sont eux qui vont proposer des projets. Il n'y a pas de restriction sur le nombre d'experts  */
+    private List<Expert> experts= new ArrayList<>(); /** Liste d'experts : ce sont eux qui vont proposer des projets. Il n'y a pas de restriction sur le nombre d'experts  */
     private Evaluateur evaluEco; /** L'évaluateur du secteur économique : c'est lui qui va évaluer le cout économique d'un projet */
     private Evaluateur evaluSoc; /** L'évaluateur du secteur social : c'est lui qui va évaluer le cout social d'un projet */
     private Evaluateur evaluEnv; /** L'évaluateur du secteur environnement : c'est lui qui va évaluer le cout environnemental d'un projet */
@@ -23,7 +23,7 @@ public class EquipeMunicipale {
         this.experts = experts;
     }
     
-    
+   
     /**
      * setter qui permet d'attribuer un élu à l'équipe municipale
      * @param elu est l'élu en question
@@ -38,23 +38,27 @@ public class EquipeMunicipale {
      * @param soc est l'évaluateur du secteur social
      * @param env est l'évaluateur du secteur environnemental 
      */
-    public void setEvaluateurs(Evaluateur e1, Evaluateur e2, Evaluateur e3) {
-        for (Evaluateur e : new Evaluateur[]{e1, e2, e3}) {
+    public void setEvaluateurs(Evaluateur... evaluateurs) { //permet de ne modifier que les évaluateurs fournis
+        for (Evaluateur e : evaluateurs) {
+            if (e == null) continue;
             switch (e.getSpecialisation()) {
-                case ECONOMIE: 
-                		evaluEco = e;
-                		break;
-                case SOCIAL: 
-                		evaluSoc = e;
-                		break;
-                case ENVIRONNEMENT: 
-                		evaluEnv = e;
+                case ECONOMIE:
+                    evaluEco = e;
+                    break;
+                case SOCIAL:
+                    evaluSoc = e;
+                    break;
+                case ENVIRONNEMENT:
+                    evaluEnv = e;
                     break;
                 default:
-                    throw new IllegalArgumentException("Évaluateur avec spécialité inconnue : " + e.getSpecialisation());
+                    throw new IllegalArgumentException(
+                        "Évaluateur avec spécialité inconnue : " + e.getSpecialisation()
+                    );
             }
         }
     }
+
     /**
      * getter qui permet de renvoyer la liste des projets finalisés i.e qui ont été évalués
      * @return la liste des projets évalués
@@ -62,6 +66,23 @@ public class EquipeMunicipale {
     public List<Projet> getProjetsComplets() {
         return projetsComplets;
     }
+    
+    public void equipeComplete(int nbProjets) {
+		if (this.experts.size()<nbProjets) { //il manque des experts
+			int manquant=nbProjets-this.experts.size();
+			experts.addAll(Fabrique.creerExperts(manquant));
+		}
+		if (evaluEco==null||evaluSoc==null||evaluEnv==null) {
+		    Evaluateur[] evaluateurs = Fabrique.creerEvaluateurs();
+		    this.setEvaluateurs(evaluateurs[0], evaluateurs[1], evaluateurs[2]);
+		}
+	    if (this.elu==null) {
+	    		this.setElu(new Elu(null, null, 45));
+	    }
+		//if il manque des evaluateurs : on en crée 
+		//je suis partie du principe que la mairie n'engagerait jamais + de 3 évaluateurs
+		//je suis aussi partie du principe qu'il n'y avait qu'un seul élu à la mairie
+}
 
     /**
      * simule un cycle dans l'équipe municipale en creant automatiquement les experts et evaluateurs
@@ -69,16 +90,13 @@ public class EquipeMunicipale {
      * étape 2 : pour chaque projet les évaluateurs et élu attribuent les valeurs (coûts et bénéfice)
      * cette méthode met à jour la liste des projets finalisés qui peuvent être soumis au vote 
      * @param nbProjets le nombre de projets a generer (= nombre d'experts crees)
-     */
-    public void Cycle(int nbProjets) { 
-	    List<Expert> experts=Fabrique.creerExperts(nbProjets);
-	    this.setExperts(experts);
-	    Evaluateur[] evaluateurs = Fabrique.creerEvaluateurs();
-	    this.setEvaluateurs(evaluateurs[0], evaluateurs[1], evaluateurs[2]);
-	    this.setElu(new Elu(null, null, 45));
+     */  
+    public void cycle(int nbProjets) {  
+    		equipeComplete(nbProjets);
     	// 1. les experts proposent des projets
-        for (Expert e : experts) {         //j'ai choisi un parcours for each car je n'ai pas besoin de modifier ma liste pendant le parcours 
-        	 Projet p=e.proposerProjet(); 
+        for (Expert e : new  ArrayList<>(experts.subList(0,nbProjets))) {         //j'ai choisi un parcours for each car je n'ai pas besoin de modifier ma liste pendant le parcours 
+        	//j'ai fait une subList car problème si on a plus d'experts dans l'équipe que de projets désirés et comme ca on garde en mémoire les experts qui n'interviennent pas dans l'équipe municipale pour ce projet mais vont peut être intervenir pour un autre
+        	Projet p=e.proposerProjet(); 
         	 projets.add(p);
         }
         
@@ -99,33 +117,4 @@ public class EquipeMunicipale {
      * utile pour les tests ou quand on veut controler precisement l'equipe
      * si les experts/evaluateurs/elu ne sont pas setups ca va planter donc faut les setup avant d'appeler cette methode
      */
-    public void Cycle() {
-    	//on verif que l'equipe est bien configuree sinon on previent
-    	if (experts == null || experts.isEmpty()) {
-    		throw new IllegalStateException("Il faut d'abord setter les experts avant d'appeler Cycle()");
-    	}
-    	if (elu == null) {
-    		throw new IllegalStateException("Il faut d'abord setter l'elu avant d'appeler Cycle()");
-    	}
-    	if (evaluEco == null || evaluSoc == null || evaluEnv == null) {
-    		throw new IllegalStateException("Il faut d'abord setter les 3 evaluateurs avant d'appeler Cycle()");
-    	}
-    	
-    	// 1. les experts proposent des projets
-        for (Expert e : experts) {
-        	 Projet p = e.proposerProjet(); 
-        	 projets.add(p);
-        }
-        
-        // 2. pour chaque projet les évaluateurs et élu attribuent les valeurs
-    	for (Projet p : projets) {
-    		elu.EvaluerBenefice(p);
-    		evaluEco.evaluerCout(p);
-    		evaluSoc.evaluerCout(p);
-    		evaluEnv.evaluerCout(p);
-    	    projetsComplets.add(p);
-    	}
-
-    	projets.clear(); //on remet la liste vide pour être prêt pour le prochain cycle
-    }
 }
