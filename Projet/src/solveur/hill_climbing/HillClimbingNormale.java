@@ -11,6 +11,7 @@ import solveur.Solveur;
  */
 
 public class HillClimbingNormale implements Solveur {
+	private boolean[] selectionInitiale = null;
 
     /**
      * méthode pour résoudre le probème du sac à dos grâce à l'algo hill climbing
@@ -19,8 +20,10 @@ public class HillClimbingNormale implements Solveur {
      */
     public List<Objet> resoudre(SacADos sac){
        
-        SolutionHillClimbing solution = solutionInitVide(sac);
-        
+	    	SolutionHillClimbing solution =
+	    		    (selectionInitiale != null)
+	    		        ? new SolutionHillClimbing(sac, selectionInitiale.clone())
+	    		        : solutionInitVide(sac);
         boolean ameliorationPossible = true;
         
         while (ameliorationPossible==true) {
@@ -44,6 +47,22 @@ public class HillClimbingNormale implements Solveur {
     }
 
 
+    public void setSolutionInitiale(List<Objet> solution, SacADos sac) {
+
+        int nbObjets = sac.getObjets().size();
+        boolean[] selection = new boolean[nbObjets];
+
+        for (int i = 0; i < nbObjets; i++) {
+            Objet obj = sac.getObjets().get(i);
+            if (solution.contains(obj)) {
+                selection[i] = true;
+            }
+        }
+        this.selectionInitiale = selection;
+    }
+
+    
+    
     /**
      * Crée une solution initiale vide 
      * @param sac Le sac à dos

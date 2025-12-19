@@ -16,6 +16,8 @@ public class HillClimbingAlea implements Solveur {
     
     private Random random;
     private int nombreVoisins; //nombre de voisins qu'on va considerer a chaque iteration
+    private boolean[] selectionInitiale = null;
+
     
     /**CONSTRUCTEUR 
      * pour la variante aleatoire du hill climbing
@@ -37,7 +39,10 @@ public class HillClimbingAlea implements Solveur {
      * @return la liste des objets bools selectionnés ou non
      */
     public List<Objet> resoudre(SacADos sac) {
-        SolutionHillClimbing solution = solutionInitVide(sac);
+	    	SolutionHillClimbing solution =
+	    		    (selectionInitiale != null)
+	    		        ? new SolutionHillClimbing(sac, selectionInitiale.clone())
+	    		        : solutionInitVide(sac);
         int nbObjets = sac.getObjets().size();
         
         boolean ameliorationPossible = true;
@@ -141,5 +146,20 @@ public class HillClimbingAlea implements Solveur {
         
         return meilleur;
     }
+
+    public void setSolutionInitiale(List<Objet> solution, SacADos sac) {
+
+        int nbObjets = sac.getObjets().size();
+        boolean[] selection = new boolean[nbObjets];
+
+        for (int i = 0; i < nbObjets; i++) {
+            Objet obj = sac.getObjets().get(i);
+            if (solution.contains(obj)) {
+                selection[i] = true;
+            }
+        }
+        this.selectionInitiale = selection;
+    }
+
 
 }
