@@ -1,6 +1,9 @@
 package tests;
 import solveur.glouton.*;
 import sacADos.*;
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
 
 //import org.junit.Test; ou api et jupiter selon junit 4 ou 5??
 //import static org.junit.Assert.*; ou api et jupiter selon junit 4 ou 5??
@@ -27,7 +30,7 @@ public class TestAjout{
 		GloutonAjoutSolver g = new GloutonAjoutSolver();
 
 		//on teste la methode (partie Act de l'AAA)
-		List<Objet> resultat = g.methodeGloutonneAjout(sac1, ordre);
+		List<Objet> resultat = GloutonAjoutSolver.methodeGloutonneAjout(sac1, ordre);
 
 		//on compare les resultats th et pratiques (partie Assert de l'AAA)
 		List<Objet> resultatTh = new ArrayList<Objet>();
