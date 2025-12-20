@@ -1,5 +1,8 @@
 package sacADos;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  *classe qui represente un objet du probleme du sac a dos multidimensionnel
  * Un objet a une utilite (ce qu'on cherche a maximiser) et plusieurs couts (contraintes)
@@ -84,6 +87,28 @@ public class Objet{
 		System.out.println("Cout total = " + this.getCoutTotal());
 
 	}
+	
+	/**
+	 * redéfinition de la méthode equals de Object
+	 */
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (!(o instanceof Objet)) return false;
+	    Objet obj = (Objet) o;
+	    return this.utilite == obj.utilite && Arrays.equals(this.couts, obj.couts);
+	}
+
+	/**
+	 * redéfinition de la méthode hashcode de Object
+	 */
+	@Override
+	public int hashCode() {
+	    int result = Objects.hash(utilite);
+	    result = 31 * result + Arrays.hashCode(couts);
+	    return result;
+	}
+
 
 	
 }
