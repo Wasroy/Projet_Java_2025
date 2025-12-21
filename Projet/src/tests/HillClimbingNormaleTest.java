@@ -60,7 +60,7 @@ public class HillClimbingNormaleTest {
     }
     
     /**
-     *hill climbing doit améliorer l'utilité (par rapport à la solution vide) i.e l'utilité de la solution doit être STRICT posiitive
+     *hill climbing doit améliorer l'utilité (par rapport à la solution vide), l'utilité de la solution doit être STRICT posiitive
      */
     @Test
     void testAmeliorationParRapportSolutionVide() {
