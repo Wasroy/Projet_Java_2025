@@ -1,22 +1,46 @@
-# Projet Java IM2D 2025
+# Projet Java IM2D 2025 — Gestion des budgets d’une ville
 
-**Cours :** Mr. Hugo Gilbert
+Projet de Java-Objet (L3 Info, IM2D) : Simulation d'une équipe municipale qui propose des projets, puis on transforme cela en problème de sac à dos multidimensionnel, pour finir on développe plusieurs manières de l'optimiser.
+
+**Cours :** Mr. Hugo Gilbert  
+**Université :** Paris Dauphine
 
 ## Groupe
 
-- **Romane Fayon** – Simulation de l'équipe municipale, génération d'instance, traitement des fichiers et une partie du menu
-- **Nathalie Habib** – Modélisation du sac à dos multidimensionnel et critères d'ordre ajout
-- **William Miserolle** – Méthode gloutonne à retrait, Hill Climbing et Main
+- **Romane Fayon** : simulation équipe municipale, génération d’instance, lecture fichier `.dat`, une partie du menu
+- **Nathalie Habib** : modélisation du sac à dos + critères d’ordre (glouton à ajout)
+- **William Miserolle** : glouton à retrait, hill climbing, `Main` (menus)
 
-## Description
+## Ce que fait le programme
 
-Ce projet comprend trois parties principales :
+Le point d’entrée principal c’est `Projet/src/app/Main.java` (menu console).
 
-1. **Simulation d'une équipe municipale** : Simulation du cycle de travail d'une équipe municipale où des experts proposent des projets, des évaluateurs les chiffrent selon leurs spécialités (économie, social, environnement) et un élu fixe le bénéfice.
+### Création d’instance (sac à dos)
 
-2. **Résolution du problème du sac à dos multidimensionnel** : Implémentation de plusieurs solveurs (glouton à ajout, glouton à retrait, hill climbing) pour résoudre le problème du sac à dos avec plusieurs contraintes budgétaires.
+Dans le menu, on peut créer un `SacADos` de 4 façons :
 
-3. **Pont entre les deux parties** : Conversion des projets municipaux en instances de sac à dos, et lecture de fichiers benchmark (.dat).
+- **Instance aléatoire** : dimension entre 1 et 5, quelques objets, budgets calculés pour éviter le cas “tout rentre”.
+- **Depuis un fichier `.dat`** : lecture d’un benchmark (format MKP) puis conversion en `SacADos`.
+- **Depuis des projets municipaux** : on lance une simulation qui génère des projets, puis on demande 3 budgets (économie/social/environnement) et on convertit en `SacADos`.
+- **Manuel** : soit un sac “par défaut” (test rapide), soit création personnalisée (dimensions, budgets, objets).
+
+### Solveurs disponibles
+
+Ensuite on peut lancer :
+
+- **Glouton à ajout** avec 2 ordres :
+  - critère 1 : utilité / somme des coûts
+  - critère 2 : utilité / coût max
+- **Glouton à retrait** :
+  - on commence avec tous les objets
+  - on retire les “moins intéressants” tant que ça dépasse
+  - puis on fait un glouton à ajout derrière
+- **Hill Climbing** :
+  - version classique (explore les voisins)
+  - version aléatoire (explore un nombre limité de voisins par itération)
+- **Combo Glouton + Hill Climbing** : on part d’un glouton (au choix) puis on “affine” avec hill climbing.
+
+Le menu affiche aussi des petites stats : temps, utilité totale, validité de la solution, et coûts par dimension.
 
 ## Structure du projet
 
@@ -24,130 +48,63 @@ Ce projet comprend trois parties principales :
 Projet/
 └── src/
     ├── app/
-    │   ├── App.java
-    │   └── Main.java              # Point d'entrée avec menus console
+    │   ├── Main.java        # menus console
+    │   └── App.java         # petit fichier de démo
     │
-    ├── equipe/
-    │   ├── Elu.java
-    │   ├── Employe.java           # Classe abstraite
-    │   ├── EquipeMunicipale.java
-    │   ├── EquipeDemo.java
-    │   ├── Evaluateur.java
-    │   ├── Expert.java
-    │   ├── Fabrique.java
-    │   ├── Projet.java
-    │   ├── Secteur.java           # Enum
-    │   └── Specialisation.java    # Enum
-    │
-    ├── sacADos/
-    │   ├── DemoSacGlouton.java
-    │   ├── Objet.java
-    │   └── SacADos.java
-    │
+    ├── equipe/              # simulation municipale
+    ├── sacADos/             # modèle du sac à dos (Objet / SacADos)
     ├── solveur/
-    │   ├── Solveur.java           # Interface commune
-    │   ├── glouton/
-    │   │   ├── GloutonAjoutSolver.java
-    │   │   ├── GloutonRetraitSolver.java
-    │   │   ├── OrdreObjetsAjoutPremier.java
-    │   │   ├── OrdreObjetsAjoutDeuxieme.java
-    │   │   └── OrdreObjetsRetrait.java
-    │   └── hill_climbing/
-    │       ├── HillClimbingNormale.java
-    │       ├── HillClimbingAlea.java
-    │       └── SolutionHillClimbing.java
+    │   ├── glouton/         # glouton ajout / retrait + comparateurs
+    │   └── hill_climbing/   # hill climbing normal + aléatoire
     │
-    ├── pont/
-    │   ├── VersSacADos.java       # Conversion projets/fichiers → SacADos
-    │   └── MKP.java               # Modélisation fichiers benchmark
-    │
-    └── tests/
-        ├── EluTest.java
-        ├── EvaluateurTest.java
-        ├── ExpertTest.java
-        ├── EquipeMunicipaleTest.java
-        └── VersSacADosTest.java
+    ├── pont/                # conversions (projets <-> sac) + lecture .dat
+    └── tests/               # tests JUnit
 ```
 
-## Fonctionnalités
+## Détails par package (simple)
 
-### 1. Simulation d'une équipe municipale
+### `equipe/` — simulation municipale
 
-Le package `equipe` simule le fonctionnement d'une équipe municipale :
+Idée : des **experts** proposent des projets, des **évaluateurs** donnent des coûts, et un **élu** donne un bénéfice.
 
-- **`Employe.java`** : Classe abstraite de base pour tous les employés (nom, prénom, âge)
-- **`Expert.java`** : Hérite de `Employe`, propose des projets dans ses secteurs de compétence
-- **`Evaluateur.java`** : Hérite de `Employe`, évalue les coûts des projets selon sa spécialisation (ÉCONOMIE, SOCIAL, ENVIRONNEMENT)
-- **`Elu.java`** : Hérite de `Employe`, évalue le bénéfice des projets
-- **`Projet.java`** : Représente un projet avec titre, description, secteur, bénéfice et coûts par spécialisation
-- **`Secteur.java`** : Énumération des secteurs (SPORT, SANTE, EDUCATION, CULTURE, ATTRACTIVITE)
-- **`Specialisation.java`** : Énumération des spécialisations (ECONOMIE, SOCIAL, ENVIRONNEMENT)
-- **`EquipeMunicipale.java`** : Orchestre le cycle complet de simulation
-- **`Fabrique.java`** : Génère aléatoirement des experts et évaluateurs
+- `Projet` : titre, description, secteur, bénéfice, et 3 coûts (économie/social/environnement).
+- `Expert` : propose un projet dans un de ses secteurs (titre et description générés).
+- `Evaluateur` : a une spécialisation (ECONOMIE / SOCIAL / ENVIRONNEMENT) et attribue un coût aléatoire.
+- `Elu` : attribue un bénéfice aléatoire.
+- `EquipeMunicipale` : méthode `cycle(int nbProjets)` qui génère des projets, les évalue, puis les met dans `projetsComplets`.
+- `Fabrique` : crée des experts et les 3 évaluateurs “de base”.
 
-### 2. Problème du sac à dos multidimensionnel
+### `sacADos/` — modèle du sac à dos multidimensionnel
 
-Le package `sacADos` modélise le problème du sac à dos avec plusieurs contraintes budgétaires :
+- `Objet` : une utilité + un tableau de coûts (une case par dimension).
+- `SacADos` : dimension, budgets, liste d’objets. Il y a aussi une méthode pour afficher le contenu.
 
-- **`Objet.java`** : Représente un objet avec une valeur d'utilité et un tableau de coûts multidimensionnels
-- **`SacADos.java`** : Représente le problème avec dimension, budgets et liste d'objets disponibles
+### `solveur/glouton/`
 
-### 3. Solveurs
+- `GloutonAjoutSolver` : trie les objets selon un comparateur, puis ajoute si ça respecte les budgets.
+- `GloutonRetraitSolver` : retire des objets jusqu’à respecter les budgets, puis applique un glouton à ajout.
+- `OrdreObjetsAjoutPremier` : utilité / somme des coûts.
+- `OrdreObjetsAjoutDeuxieme` : utilité / coût max.
+- `OrdreObjetsRetrait` : utilité / coût sur la dimension la plus dépassée.
 
-#### Méthodes gloutonnes (`solveur.glouton`)
+### `solveur/hill_climbing/`
 
-- **`GloutonAjoutSolver.java`** : Solveur qui ajoute les objets selon un ordre de tri
-- **`GloutonRetraitSolver.java`** : Solveur qui commence avec tous les objets puis retire les moins intéressants
-- **`OrdreObjetsAjoutPremier.java`** : Comparateur utilité/coût total
-- **`OrdreObjetsAjoutDeuxieme.java`** : Comparateur utilité/coût max
-- **`OrdreObjetsRetrait.java`** : Comparateur pour retrait basé sur la dimension la plus dépassée
+- `SolutionHillClimbing` : une solution avec un tableau de booléens (true = objet pris), et des méthodes `utilite()`, `couts()`, `estValide()`.
+- `HillClimbingNormale` : démarre (par défaut) d’une solution vide et explore les voisins. Voisinage avec `t=1` (on enlève/ajoute au plus 1 objet).
+- `HillClimbingAlea` : pareil mais au lieu de tout explorer, on tire `nombreVoisins` voisins aléatoires par itération (plus rapide mais pas garanti).
 
-#### Hill Climbing (`solveur.hill_climbing`)
+### `pont/` — conversion + fichiers `.dat`
 
-- **`HillClimbingNormale.java`** : Version classique qui explore tous les voisins
-- **`HillClimbingAlea.java`** : Variante qui explore un nombre limité de voisins aléatoires
-- **`SolutionHillClimbing.java`** : Représentation d'une solution avec tableau de booléens
+- `VersSacADos` :
+  - convertit un `Projet` en `Objet` (utilité = bénéfice, coûts = (éco, social, env))
+  - lit un fichier `.dat` (format MKP) → crée un `MKP` → convertit en `SacADos`
+- `MKP` : juste un “conteneur” des données du fichier (n, k, utilités, contraintes, budgets, valeur optimale).
 
-Les solveurs Hill Climbing implémentent l'interface `Solveur` qui définit la méthode `resoudre(SacADos sac)`.
+Petit rappel sur le `.dat` (benchmark) : première ligne `n k opt`, puis la liste des utilités, puis la matrice des contraintes (k lignes), puis les budgets.
 
-### 4. Pont (`pont`)
+## Compilation / Exécution
 
-- **`VersSacADos.java`** : Convertit les projets municipaux ou fichiers benchmark en SacADos
-- **`MKP.java`** : Modélise les fichiers benchmark du problème MKP
-
-### 5. Tests JUnit
-
-5 classes de tests dans le package `tests` :
-- `EluTest` : Test de l'évaluation des bénéfices
-- `EvaluateurTest` : Test de l'évaluation des coûts
-- `ExpertTest` : Test de la proposition de projets
-- `EquipeMunicipaleTest` : Test du cycle complet
-- `HillClimbingNormaleTest` : Tests basiques du solveur hill climbing
-- `VersSacADosTest` : Test des conversions et lecture de fichiers
-
-## Exécution
-
-### Application principale (menus console)
-
-```bash
-cd Projet
-java -cp bin app.Main
-```
-
-Le programme propose :
-- Génération d'instances aléatoires ou depuis fichier
-- Conversion de projets municipaux en sac à dos
-- Résolution par méthodes gloutonnes ou Hill Climbing
-
-### Compilation
-
-Depuis la racine du projet :
-
-```bash
-cd Projet
-mkdir -p bin
-javac -d bin $(find src -name "*.java")
-```
+### 1) Compiler
 
 Sous PowerShell (Windows) :
 
@@ -157,19 +114,46 @@ mkdir bin -ea 0
 javac -d bin (Get-ChildItem -Recurse -Filter *.java src | ForEach-Object FullName)
 ```
 
-### Tests JUnit
+Sous Linux/macOS :
+
+```bash
+cd Projet
+mkdir -p bin
+javac -d bin $(find src -name "*.java")
+```
+
+### 2) Lancer le menu
+
+```bash
+cd Projet
+java -cp bin app.Main
+```
+
+## Tests JUnit
+
+On a des tests dans `Projet/src/tests/` :
+
+- `EluTest`
+- `EvaluateurTest`
+- `ExpertTest`
+- `EquipeMunicipaleTest`
+- `HillClimbingNormaleTest`
+- `VersSacADosTest`
+- `TestAjout`
+- `TestRetrait`
+
+Exemple de commande (si vous avez le jar dans `Projet/`) :
 
 ```bash
 cd Projet
 java -jar junit-platform-console-standalone-1.10.2.jar --class-path bin --scan-class-path
 ```
 
-## Auteurs
+## Remarques rapides
 
-- Romane Fayon
-- Nathalie Habib
-- William Miserolle
+- Les valeurs en “euros” dans la simulation sont tirées aléatoirement (coûts et bénéfices).
+- Le menu est fait pour être lisible et testable (affichage, stats, etc.).
 
 ---
 
-*Projet réalisé dans le cadre du cours Java-Objet L3 Info 2025 de Mr. Hugo Gilbert - Université Paris Dauphine*
+*Projet réalisé dans le cadre du cours Java-Objet L3 Info 2025–2026 (IM2D) — Université Paris Dauphine.*
